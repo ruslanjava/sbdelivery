@@ -1,0 +1,8 @@
+<resources>
+    <attr name="windowBackground" format="reference" />
+    <attr name="textColorPrimary" format="reference" />
+    <attr name="navigationBarColor" format="reference" />
+
+    <attr name="splashBackground" format="reference" />
+    <attr name="splashTile" format="color" />
+</resources>

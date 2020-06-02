@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.github.ruslanjava.yusupova"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+
+    // Android
+    implementation AndroidLibs.appCompat
+    implementation AndroidLibs.constraintLayout
+    implementation AndroidLibs.material
+
+    // Kotlin
+    implementation KotlinDependencies.stdLib
+    implementation KotlinDependencies.coreKtx
+
+    // Kotlin coroutines
+    implementation KoroutineLibs.core
+    implementation KoroutineLibs.android
+
+    // Navigation
+    implementation NavLibs.navigationFragment
+    implementation NavLibs.navigationFragmentKtx
+    implementation NavLibs.navigationUi
+    implementation NavLibs.navigationUiKtx
+
+    // Lifecycle
+    implementation LifecycleLibs.extensions
+    implementation LifecycleLibs.viewModelKtx
+
+    // Glide + TouchImage
+    implementation GlideLibs.glide
+    annotationProcessor GlideLibs.compiler
+    implementation ImageLibs.touchImage
+
+    // Test
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+}
