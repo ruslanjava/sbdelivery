@@ -3,10 +3,12 @@
     <color name="color_primary_dark">#24222C</color>
     <color name="color_primary">#24222C</color>
     <color name="color_accent">#FF6F14</color>
+    <color name="color_control_normal">#FFFFFF</color>
     <color name="text_color_primary">#FFFFFF</color>
-    <color name="window_background">#24222C</color>
+    <color name="window_background">#1a1a21</color>
     <color name="navigation_bar_color">#263238</color>
+    <color name="sale_color">#FEC90D</color>
 
     <color name="splash_background">#1A1A21</color>
-    <color name="splash_tile">?attr/splashTile</color>
+    <color name="splash_tile">#22222C</color>
 </resources>

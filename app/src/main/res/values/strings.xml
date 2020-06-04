@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SBDelivery</string>
+    <string name="cart">Корзина</string>
 </resources>

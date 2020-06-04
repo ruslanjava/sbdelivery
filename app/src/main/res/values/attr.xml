@@ -3,6 +3,7 @@
     <attr name="textColorPrimary" format="reference" />
     <attr name="navigationBarColor" format="reference" />
 
+    <attr name="saleColor" format="reference" />
     <attr name="splashBackground" format="reference" />
     <attr name="splashTile" format="color" />
 </resources>

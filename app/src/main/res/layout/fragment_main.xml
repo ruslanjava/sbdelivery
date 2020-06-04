@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/windowBackground"
+    tools:context="ru.skillbranch.sbdelivery.ui.screens.main.MainFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/main_logo_background"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="2"
+                android:src="@drawable/sb_main_logo"
+                android:scaleType="fitXY"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="240dp"
+                android:layout_height="110dp"
+                android:src="@drawable/ic_sb_delivery"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="@id/main_logo_background"
+                app:layout_constraintStart_toStartOf="@id/main_logo_background"
+                app:layout_constraintEnd_toEndOf="@id/main_logo_background"
+                app:layout_constraintBottom_toBottomOf="@id/main_logo_background" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_main_recommended_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                tools:text="Рекомендуем"
+                app:layout_constraintTop_toBottomOf="@id/main_logo_background"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_main_recommended_further"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/colorAccent"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="end"
+                tools:text="См. все"
+                app:layout_constraintBottom_toBottomOf="@id/tv_main_recommended_title"
+                app:layout_constraintStart_toStartOf="@id/main_logo_background" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_recommended_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_main_recommended_title"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                tools:listitem="@layout/list_item_dish" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_main_best_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                tools:text="Лучшее"
+                app:layout_constraintTop_toBottomOf="@id/rv_recommended_list"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_main_best_further"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/colorAccent"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="end"
+                tools:text="См. все"
+                app:layout_constraintBottom_toBottomOf="@id/tv_main_best_title"
+                app:layout_constraintStart_toStartOf="@id/main_logo_background" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_best_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_main_best_title"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                tools:listitem="@layout/list_item_dish" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_main_popular_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/colorControlNormal"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                tools:text="Популярное"
+                app:layout_constraintTop_toBottomOf="@id/rv_best_list"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_main_popular_further"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/colorAccent"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="end"
+                tools:text="См. все"
+                app:layout_constraintBottom_toBottomOf="@id/tv_main_popular_title"
+                app:layout_constraintStart_toStartOf="@id/main_logo_background" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_popular_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_main_popular_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                tools:listitem="@layout/list_item_dish" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

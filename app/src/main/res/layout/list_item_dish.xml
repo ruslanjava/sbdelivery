@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="168dp"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity">
+
+<androidx.cardview.widget.CardView
+    app:elevation="8dp"
+    app:cardBackgroundColor="?attr/colorPrimaryDark"
+    app:cardCornerRadius="6dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="0dp"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dish_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1"
+            app:srcCompat="@drawable/dish_example"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dish_like"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintDimensionRatio="1"
+            app:srcCompat="@drawable/ic_heart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dish_sale"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:background="@drawable/sale_background"
+            android:backgroundTint="?attr/saleColor"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/windowBackground"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            tools:text="АКЦИЯ"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dish_price"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/colorAccent"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            tools:text="1280 Р"
+            app:layout_constraintTop_toBottomOf="@id/dish_background"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dish_name"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/colorControlNormal"
+            android:textSize="14sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            tools:text="Сет Королевский"
+            app:layout_constraintTop_toBottomOf="@id/dish_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_to_cart"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:fabCustomSize="40dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="140dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_baseline_add_24"
+            android:background="@color/window_background"
+            android:elevation="8dp"
+            app:backgroundTint="?attr/colorAccent"
+            app:layout_constraintEnd_toEndOf="@id/dish_background"
+            app:layout_constraintTop_toTopOf="@id/dish_background" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+
+</FrameLayout>
