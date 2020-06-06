@@ -55,6 +55,17 @@ dependencies {
     implementation KoroutineLibs.core
     implementation KoroutineLibs.android
 
+    // Retrofit
+    implementation RetrofitLibs.retrofit
+
+    // OkHtto
+    implementation OkHttpLibs.okhttp
+    implementation OkHttpLibs.loggingInterceptor
+
+    // Moshi
+    implementation MoshiLibs.moshi
+    implementation MoshiLibs.converterMoshi
+
     // Navigation
     implementation NavLibs.navigationFragment
     implementation NavLibs.navigationFragmentKtx
@@ -68,8 +79,14 @@ dependencies {
     // Glide + TouchImage
     implementation GlideLibs.glide
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
     annotationProcessor GlideLibs.compiler
     implementation ImageLibs.touchImage
 

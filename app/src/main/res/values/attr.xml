@@ -1,6 +1,7 @@
 <resources>
     <attr name="windowBackground" format="reference" />
     <attr name="textColorPrimary" format="reference" />
+    <attr name="textColorSecondary" format="reference" />
     <attr name="navigationBarColor" format="reference" />
 
     <attr name="saleColor" format="reference" />

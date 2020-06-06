@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <declare-styleable name="MainMenuItemView">
+        <attr name="icon" format="reference"/>
+        <attr name="name" format="string"/>
+        <attr name="badge" format="integer"/>
+    </declare-styleable>
+</resources>

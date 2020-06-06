@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/nav_header_background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/ic_background_tiled"
+        android:background="?attr/windowBackground"
+        app:layout_constraintDimensionRatio="1.73" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/nav_header_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textColorSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/nav_header_logout"
+        app:layout_constraintBottom_toBottomOf="@id/nav_header_background"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        tools:text="sidorov.ivan@mail.ru" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/nav_header_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/textColorPrimary"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/nav_header_logout"
+        app:layout_constraintBottom_toTopOf="@id/nav_header_email"
+        tools:text="Сидоров Иван" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/nav_header_logout"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:srcCompat="@drawable/ic_logout"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/nav_header_user"
+        app:layout_constraintBottom_toBottomOf="@id/nav_header_email" />
+
+    <ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItemView
+        android:id="@+id/nav_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_sb"
+        app:name="@string/main_about"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nav_menu_menu"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/nav_header_background"
+        app:layout_constraintBottom_toTopOf="@id/nav_about">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_main"
+                app:name="@string/main_main" />
+
+            <ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_menu"
+                app:name="@string/main_menu" />
+
+            <ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_heart"
+                app:name="@string/main_favorites" />
+
+            <ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_profile"
+                app:name="@string/main_cart"
+                app:badge="14"/>
+
+            <ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_orders"
+                app:name="@string/main_orders" />
+
+            <ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItemView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_notifications"
+                app:name="@string/main_notifications" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
