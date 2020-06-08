@@ -11,16 +11,11 @@
     <string name="main_orders">Заказы</string>
     <string name="main_notifications">Уведомления</string>
     <string name="main_about">О приложении</string>
+    <string name="main_drawer_open">Открыть</string>
+    <string name="main_drawer_close">Закрыть</string>
+    <string name="main_see_all">См. все</string>
+    <string name="main_recommend">Рекомендуем</string>
+    <string name="main_best">Лучшее</string>
+    <string name="main_popular">Популярное</string>
 
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
 </resources>

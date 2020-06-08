@@ -8,6 +8,7 @@
 
         <item name="textColorPrimary">@color/text_color_primary</item>
         <item name="textColorSecondary">@color/text_color_secondary</item>
+        <item name="android:textColorSecondary">@color/color_accent</item>
         <item name="navigationBarColor">@color/navigation_bar_color</item>
         <item name="windowBackground">@color/window_background</item>
 
@@ -15,24 +16,24 @@
 
         <item name="splashBackground">@color/splash_background</item>
         <item name="splashTile">@color/splash_tile</item>
+
+        <item name="textSizeLarge">@dimen/text_size_large</item>
+        <item name="textSizeMedium">@dimen/text_size_medium</item>
+        <item name="textSizeSmall">@dimen/text_size_small</item>
+
+        <item name="navItemHeight">@dimen/nav_item_height</item>
     </style>
 
     <style name="NavBarTheme" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorOnPrimary">@color/color_primary</item>
     </style>
 
-    <style name="AppToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+    <style name="AppToolbar" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="titleTextColor">@color/text_color_primary</item>
         <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="colorControlNormal">@color/color_accent</item>
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

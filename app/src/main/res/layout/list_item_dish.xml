@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="168dp"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    tools:context=".RootActivity">
 
 <androidx.cardview.widget.CardView
     app:elevation="8dp"

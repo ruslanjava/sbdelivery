@@ -2,7 +2,7 @@ package ru.skillbranch.sbdelivery.data.remote
 
 import com.squareup.moshi.Json
 
-class FavoriteDish {
+class FavoriteDishRes {
 
     @Json(name = "dishId")
     lateinit var dishId: String

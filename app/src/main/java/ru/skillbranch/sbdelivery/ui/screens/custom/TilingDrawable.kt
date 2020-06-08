@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.screens.splash
+package ru.skillbranch.sbdelivery.ui.screens.custom
 
 import android.graphics.Canvas
 import android.graphics.Paint
