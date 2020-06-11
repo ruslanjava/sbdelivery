@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.data.remote
+package ru.skillbranch.sbdelivery.http.data.dishes
 
 import com.squareup.moshi.Json
 

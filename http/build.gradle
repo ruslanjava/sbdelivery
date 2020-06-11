@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    // Kotlin
+    implementation KotlinLibs.stdLib
+    implementation KotlinLibs.coreKtx
+
+    // Kotlin coroutines
+    implementation KoroutineLibs.core
+    implementation KoroutineLibs.android
+
+    // Retrofit
+    implementation RetrofitLibs.retrofit
+
+    // OkHttp
+    implementation OkHttpLibs.okhttp
+    implementation OkHttpLibs.loggingInterceptor
+
+    // Moshi
+    implementation MoshiLibs.moshi
+    implementation MoshiLibs.converterMoshi
+
+    // Test
+    testImplementation TestLibs.junit
+    testImplementation TestLibs.hamcrestCore
+    testImplementation TestLibs.hamcrestLibrary
+
+    androidTestImplementation AndroidTestLibs.extJunit
+    androidTestImplementation AndroidTestLibs.espressoCore
+}

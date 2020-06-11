@@ -9,7 +9,7 @@ android {
     buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.github.ruslanjava.yusupova"
+        applicationId "ru.skillbranch.sbdelivery"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode rootProject.versionCode
@@ -42,29 +42,20 @@ android {
 
 dependencies {
 
+    implementation project(':http')
+
     // Android
     implementation AndroidLibs.appCompat
     implementation AndroidLibs.constraintLayout
     implementation AndroidLibs.material
 
     // Kotlin
-    implementation KotlinDependencies.stdLib
-    implementation KotlinDependencies.coreKtx
+    implementation KotlinLibs.stdLib
+    implementation KotlinLibs.coreKtx
 
     // Kotlin coroutines
     implementation KoroutineLibs.core
     implementation KoroutineLibs.android
-
-    // Retrofit
-    implementation RetrofitLibs.retrofit
-
-    // OkHtto
-    implementation OkHttpLibs.okhttp
-    implementation OkHttpLibs.loggingInterceptor
-
-    // Moshi
-    implementation MoshiLibs.moshi
-    implementation MoshiLibs.converterMoshi
 
     // Navigation
     implementation NavLibs.navigationFragment
