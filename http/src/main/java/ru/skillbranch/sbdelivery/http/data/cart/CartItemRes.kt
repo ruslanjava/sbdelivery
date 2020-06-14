@@ -7,7 +7,7 @@ class CartItemRes {
 
     // ID блюда
     @Json(name = "id")
-    lateinit var id: String
+    var dishId: String? = null
 
     // Количество
     @Json(name = "amount")

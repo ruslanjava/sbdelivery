@@ -1,0 +1,49 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    // Kotlin
+    implementation KotlinLibs.stdLib
+    implementation KotlinLibs.coreKtx
+
+    // Room
+    implementation RoomLibs.roomRuntime
+    implementation RoomLibs.roomKtx
+    kapt RoomLibs.roomCompiler
+
+    // Test
+    testImplementation TestLibs.junit
+    testImplementation TestLibs.hamcrestCore
+    testImplementation TestLibs.hamcrestLibrary
+    testImplementation RoomLibs.roomTesting
+
+    androidTestImplementation AndroidTestLibs.extJunit
+    androidTestImplementation AndroidTestLibs.espressoCore
+
+}

@@ -13,7 +13,7 @@ class CartRes {
     @Json(name = "promocode")
     var promotext: String? = null
 
-    // Текст промокода, опционально
+    // Общая стоимость корзины
     @Json(name = "total")
     var total: Int = 0
 
