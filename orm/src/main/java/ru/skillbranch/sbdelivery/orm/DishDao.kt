@@ -9,11 +9,11 @@ abstract class DishDao {
 
     // категория
 
-    @Query("SELECT * FROM category WHERE parent_id = null")
+    @Query("SELECT * FROM category WHERE parent_id = 'root'")
     abstract fun getRootCategories(): List<Category>
 
     @Query("SELECT * FROM category WHERE parent_id = :parentId")
-    abstract fun getChildCategories(parentId: Int): List<Category>
+    abstract fun getChildCategories(parentId: String): List<Category>
 
     @Insert
     abstract fun insert(category: Category)

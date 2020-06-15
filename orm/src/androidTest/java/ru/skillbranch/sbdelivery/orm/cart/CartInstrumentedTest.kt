@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.orm
+package ru.skillbranch.sbdelivery.orm.cart
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -8,21 +8,19 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.entities.cart.Cart
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartItem
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(AndroidJUnit4::class)
 class CartInstrumentedTest {
 
     @Test
     fun testCartDao() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val cartDao = DeliveryDatabase.getInstance(appContext).cartDao()
+        val cartDao = DeliveryDatabase.getInstance(
+            appContext
+        ).cartDao()
         cartDao.clearTables()
 
         val cart = newCart("123456", "PROMO", 2000)

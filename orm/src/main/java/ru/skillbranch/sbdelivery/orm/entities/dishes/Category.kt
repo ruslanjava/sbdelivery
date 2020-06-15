@@ -24,7 +24,7 @@ class Category {
 
     // ID Родительской категории, опционально (если есть, то это подкатегория)
     @ColumnInfo(name = "parent_id")
-    var parentId: String? = null
+    var parentId: String = "root"
 
     // Доступна ли категория (если нет, то нужно удалить ее из БД)
     var active: Boolean = false

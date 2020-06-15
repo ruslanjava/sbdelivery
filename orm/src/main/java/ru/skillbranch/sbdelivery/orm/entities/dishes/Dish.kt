@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "dish")
-class Dish {
+open class Dish {
 
     // ID блюда
     @PrimaryKey
