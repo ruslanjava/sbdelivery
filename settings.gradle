@@ -1,4 +1,5 @@
 rootProject.name='SBDelivery'
-include ':orm'
 include ':http'
+include ':prefs'
+include ':orm'
 include ':app'

@@ -16,7 +16,7 @@ class ProfileRes {
     @Json(name = "lastName")
     lateinit var lastName: String
 
-    // Фамилия
+    // Email
     @Json(name = "email")
     lateinit var email: String
 
