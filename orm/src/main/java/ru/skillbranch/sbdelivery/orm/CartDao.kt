@@ -3,31 +3,29 @@ package ru.skillbranch.sbdelivery.orm
 import androidx.room.*
 import ru.skillbranch.sbdelivery.orm.entities.cart.Cart
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartItem
+import ru.skillbranch.sbdelivery.orm.entities.cart.CartWithItems
 
 @Dao
 abstract class CartDao {
 
     @Transaction
-    open fun getCart(): Cart? {
-        val cart: Cart = selectCart() ?: return null
-        val items: List<CartItem> = selectCartItems()
-        cart.items = items
-        return cart
-    }
+    @Query("SELECT * FROM cart LIMIT 1")
+    abstract fun getCart(): CartWithItems?
 
     @Transaction
-    open fun insert(cart: Cart): Long {
+    open fun insert(cart: CartWithItems): Long {
         val cartId = insertCart(cart)
         cart.items.forEach {
+            it.cartId = cartId
             insertCartItem(it)
         }
         return cartId
     }
 
     @Transaction
-    open fun update(cart: Cart) {
+    open fun updateCart(cart: CartWithItems) {
         updateCart(cart)
-        deleteCartItems()
+        deleteCartItems(cart.id)
         cart.items.forEach {
             insertCartItem(it)
         }
@@ -39,25 +37,26 @@ abstract class CartDao {
         deleteCart()
     }
 
-    @Update
-    protected abstract fun updateCart(cart: Cart)
-
+    @Transaction
     @Query("SELECT * FROM cart LIMIT 1")
-    protected abstract fun selectCart(): Cart?
-
-    @Query("SELECT * FROM cart_item")
-    protected abstract fun selectCartItems(): List<CartItem>
+    abstract fun selectCart(): CartWithItems?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     protected abstract fun insertCart(cart: Cart): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    protected abstract fun insertCartItem(cartItem: CartItem): Long
+    protected abstract fun insertCartItem(item: CartItem): Long
+
+    @Update
+    protected abstract fun updateCart(cart: Cart)
 
     @Query("DELETE FROM cart")
     protected abstract fun deleteCart()
 
     @Query("DELETE FROM cart_item")
     protected abstract fun deleteCartItems()
+
+    @Query("DELETE FROM cart_item WHERE cart_id = :cartId")
+    protected abstract fun deleteCartItems(cartId: Long)
 
 }

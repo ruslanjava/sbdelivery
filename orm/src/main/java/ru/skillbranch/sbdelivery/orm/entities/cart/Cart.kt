@@ -2,11 +2,10 @@ package ru.skillbranch.sbdelivery.orm.entities.cart
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "cart")
-class Cart {
+open class Cart {
 
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -23,8 +22,5 @@ class Cart {
     // Общая стоимость корзины
     @ColumnInfo(name = "total")
     var total: Int = 0
-
-    @Ignore
-    var items: List<CartItem> = listOf()
 
 }

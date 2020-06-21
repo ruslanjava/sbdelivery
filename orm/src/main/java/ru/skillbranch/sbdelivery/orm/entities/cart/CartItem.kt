@@ -12,6 +12,10 @@ class CartItem {
     @ColumnInfo(name = "id")
     var id: Long? = null
 
+    // ID корзины
+    @ColumnInfo(name = "cart_id")
+    var cartId: Long? = null
+
     // ID блюда
     @ColumnInfo(name = "dish_id")
     var dishId: String? = null

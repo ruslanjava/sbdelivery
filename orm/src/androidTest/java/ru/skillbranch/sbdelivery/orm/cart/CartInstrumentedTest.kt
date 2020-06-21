@@ -9,8 +9,8 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
-import ru.skillbranch.sbdelivery.orm.entities.cart.Cart
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartItem
+import ru.skillbranch.sbdelivery.orm.entities.cart.CartWithItems
 
 @RunWith(AndroidJUnit4::class)
 class CartInstrumentedTest {
@@ -31,7 +31,7 @@ class CartInstrumentedTest {
         )
         cartDao.insert(cart)
 
-        val newCart = cartDao.getCart()
+        val newCart: CartWithItems? = cartDao.getCart()
         assertThat(newCart, CoreMatchers.notNullValue())
 
         assertThat(newCart!!.promocode, CoreMatchers.`is`("123456"))
@@ -42,8 +42,8 @@ class CartInstrumentedTest {
         assertThat(items.size, CoreMatchers.`is`(3))
     }
 
-    private fun newCart(promocode: String, promotext: String, total: Int): Cart {
-        val cart = Cart()
+    private fun newCart(promocode: String, promotext: String, total: Int): CartWithItems {
+        val cart = CartWithItems()
         cart.promocode = promocode
         cart.promotext = promotext
         cart.total = total
