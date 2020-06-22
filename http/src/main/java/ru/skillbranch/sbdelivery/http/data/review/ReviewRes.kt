@@ -10,11 +10,11 @@ class ReviewRes {
 
     // Имя автора
     @Json(name = "author")
-    lateinit var author: String
+    var author: String? = null
 
     // Дата написания отзыва (ISO 8601)
     @Json(name = "date")
-    lateinit var date: String
+    var date: String? = null
 
     // Оценка
     @Json(name = "rating")
@@ -29,11 +29,11 @@ class ReviewRes {
     var active: Boolean = false
 
     // Дата создания (мс)
-    @Json(name = "active")
+    @Json(name = "createdAt")
     var createdAt: Long = 0
 
     // Дата обновления (мс)
-    @Json(name = "active")
+    @Json(name = "updatedAt")
     var updatedAt: Long = 0
 
 }

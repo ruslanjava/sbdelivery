@@ -1,6 +1,5 @@
 package ru.skillbranch.sbdelivery.http.auth
 
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.CallAdapter
 import java.lang.reflect.Type
@@ -17,13 +16,9 @@ internal class WrappingCallAdapter<R, T>(
 
     override fun adapt(call: Call<R>): T {
         val request = call.request()
-        auth[identify(request)] = enabled
+        val key = request.identity()
+        auth[key] = enabled
         return adapter.adapt(call)
-    }
-
-    private fun identify(request: Request): Int {
-        // this is very experimental but it does the job currently
-        return (request.url.toString() + request.method).hashCode()
     }
 
 }

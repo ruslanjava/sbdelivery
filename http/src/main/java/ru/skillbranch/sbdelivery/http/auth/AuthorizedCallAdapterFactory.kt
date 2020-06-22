@@ -30,7 +30,7 @@ internal class AuthorizedCallAdapterFactory(
 
     private fun getAnnotation(annotations: Array<Annotation>): Authorized? {
         for (annotation in annotations) {
-            if (Authorized::class.java == annotation.annotationClass) {
+            if (Authorized::class == annotation.annotationClass) {
                 return annotation as Authorized
             }
         }

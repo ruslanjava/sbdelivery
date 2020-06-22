@@ -22,27 +22,27 @@ interface SbDeliveryService {
 
     // -- авторизация --
 
-    @POST("auth/login")
+    @POST("/auth/login")
     suspend fun auth(@Body login: LoginRes): LoggedRes
 
-    @POST("auth/register")
+    @POST("/auth/register")
     suspend fun register(@Body register: RegisterRes): LoggedRes
 
-    @POST("auth/refresh")
+    @POST("/auth/refresh")
     suspend fun refreshToken(@Body body: RefreshTokenRes)
 
-    @POST("auth/recovery/email")
+    @POST("/auth/recovery/email")
     suspend fun recoveryEmail(@Body body: RecoveryEmailRes)
 
-    @POST("auth/recovery/code")
+    @POST("/auth/recovery/code")
     suspend fun recoveryCode(@Body body: RecoveryCodeRes)
 
-    @POST("auth/recovery/password")
+    @POST("/auth/recovery/password")
     suspend fun recoveryCode(@Body body: RecoveryPasswordRes)
 
     // -- категории и блюда --
 
-    @GET("categories")
+    @GET("/categories")
     suspend fun categories(
         @Query("offset") offset: Int, @Query("limit") limit: Int = 10,
         @Header("If-Modified-Since") ifModifiedSince: String = "Wed, 21 Oct 2015 07:28:00 GMT"
@@ -73,15 +73,15 @@ interface SbDeliveryService {
     // -- профиль --
 
     @Authorized
-    @GET("profile")
+    @GET("/profile")
     suspend fun profile(): ProfileRes
 
     @Authorized
-    @PUT("profile")
+    @PUT("/profile")
     suspend fun profile(@Body profile: ProfileRes)
 
     @Authorized
-    @PUT("profile/password")
+    @PUT("/profile/password")
     suspend fun profilePassword(@Body password: ProfilePasswordRes)
 
     // -- отзывы --
@@ -89,7 +89,7 @@ interface SbDeliveryService {
     @GET("/reviews/{dishId}")
     suspend fun reviews(
         @Path("dishId") dishId: String, @Query("offset") offset: Int, @Query("limit") limit: Int = 10,
-        @Header("If-Modified-Since") ifModifiedSince: String = "Wed, 21 Oct 2015 07:28:00 GMT"
+        @Header("If-Modified-Since") ifModifiedSince: String = "1970-01-01T00:00:00.000Z"
     ): List<ReviewRes>
 
     @Authorized
