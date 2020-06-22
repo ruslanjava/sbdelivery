@@ -8,7 +8,6 @@ import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.lang.IllegalStateException
 import java.lang.UnsupportedOperationException
-import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
@@ -16,7 +15,7 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-class EncryptedSharedPreferences(private val prefs: SharedPreferences) : SharedPreferences {
+internal class EncryptedSharedPreferences(private val prefs: SharedPreferences) : SharedPreferences {
 
     override fun contains(key: String?): Boolean {
         return prefs.contains(key)
