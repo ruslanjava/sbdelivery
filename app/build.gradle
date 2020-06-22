@@ -55,8 +55,8 @@ dependencies {
     implementation KotlinLibs.coreKtx
 
     // Kotlin coroutines
-    implementation KoroutineLibs.core
-    implementation KoroutineLibs.android
+    implementation CoroutineLibs.core
+    implementation CoroutineLibs.android
 
     // Navigation
     implementation NavLibs.navigationFragment
