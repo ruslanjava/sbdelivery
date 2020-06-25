@@ -14,7 +14,7 @@ class DishRes {
 
     // Описание блюда
     @Json(name = "description")
-    lateinit var description: String
+    var description: String = ""
 
     // Ссылка на изображение
     @Json(name = "image")

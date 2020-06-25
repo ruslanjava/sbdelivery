@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery
+package ru.skillbranch.sbdelivery.ui.screens
 
 import android.app.Application
 import android.os.Bundle
@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.databinding.ActivityRootBinding
-import ru.skillbranch.sbdelivery.ui.screens.splash.SplashFragment
 
 class RootActivity : AppCompatActivity() {
 
@@ -21,6 +21,7 @@ class RootActivity : AppCompatActivity() {
     lateinit var navController: NavController
     private lateinit var viewModel: RootViewModel
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,7 +29,9 @@ class RootActivity : AppCompatActivity() {
         rootContainer = binding.rootContainer
         setContentView(binding.root)
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(this,
+            R.id.nav_host_fragment
+        )
         initViewModel()
 
         val firstStart = savedInstanceState == null
@@ -37,10 +40,10 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun loadData() {
-        viewModel.syncDataIfNeed().observe(this, Observer<LoadResult<Boolean>> {
-            when (it) {
-
+        viewModel.syncDataIfNeed().observe(this, Observer<LoadResult<Boolean>> { result ->
+            when (result) {
                 is LoadResult.Loading -> {
                     navController.navigate(R.id.nav_splash)
                 }
@@ -51,14 +54,12 @@ class RootActivity : AppCompatActivity() {
 
                 is LoadResult.Error -> {
                     Snackbar.make(
-                        rootContainer, it.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE
+                        rootContainer, result.errorMessage.toString(), Snackbar.LENGTH_INDEFINITE
                     ).show()
                 }
-
             }
         })
     }
-
 
     private fun initViewModel() {
         val vmFactory = RootViewModelFactory(this.application)

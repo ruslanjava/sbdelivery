@@ -56,6 +56,11 @@ object HttpClient {
     }
 
     @ExperimentalCoroutinesApi
+    suspend fun getRecommendedIds(): List<String> {
+        return service.recommendedIds()
+    }
+
+    @ExperimentalCoroutinesApi
     suspend fun getAllDishes(): List<DishRes> {
         val result = mutableListOf<DishRes>()
 

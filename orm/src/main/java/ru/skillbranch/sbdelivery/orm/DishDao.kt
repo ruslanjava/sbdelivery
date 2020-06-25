@@ -1,30 +1,41 @@
 package ru.skillbranch.sbdelivery.orm
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
-import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 
+// блюда
 @Dao
 abstract class DishDao {
 
-    // категория
+    @Transaction
+    open fun upsert(dishes: List<Dish>) {
+        insert(dishes)
+            .mapIndexed { index, insertResult -> if (insertResult == -1L) dishes[index] else null }
+            .filterNotNull()
+            .also { if (it.isNotEmpty()) update(it) }
+    }
 
-    @Query("SELECT * FROM category WHERE parent_id = 'root'")
-    abstract fun getRootCategories(): List<Category>
-
-    @Query("SELECT * FROM category WHERE parent_id = :parentId")
-    abstract fun getChildCategories(parentId: String): List<Category>
-
-    @Insert
-    abstract fun insert(category: Category)
-
-    @Insert
-    abstract fun update(category: Category)
-
-    // блюда
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(dishes: List<Dish>): List<Long>
 
     @Query("SELECT * FROM dish")
     abstract fun getDishes(): List<Dish>
+
+    @Query("SELECT * FROM dish WHERE recommended = 1")
+    abstract fun getRecommendedDishes(): LiveData<List<Dish>>
+
+    @Query("SELECT * FROM dish WHERE rating >= 4.8 LIMIT 10 ")
+    abstract fun getBestDishes(): LiveData<List<Dish>>
+
+    @Query("SELECT * FROM dish ORDER BY likes DESC LIMIT 10 ")
+    abstract fun getPopularDishes(): LiveData<List<Dish>>
+
+    @Query("SELECT * FROM dish LIMIT 1")
+    abstract fun getFirstDish(): Dish?
+
+    @Query("SELECT * FROM dish WHERE id = :id LIMIT 1")
+    abstract fun findDish(id: String): Dish?
 
     @Query("SELECT * FROM dish WHERE favorite = 1")
     abstract fun getFavoriteDishes(): List<Dish>
@@ -38,14 +49,13 @@ abstract class DishDao {
     @Update
     abstract fun update(dish: Dish)
 
+    @Update
+    abstract fun update(dishes: List<Dish>)
+
     @Transaction
     open fun clearTables() {
         deleteDishes()
-        deleteCategories()
     }
-
-    @Query("DELETE FROM category")
-    protected abstract fun deleteCategories()
 
     @Query("DELETE FROM dish")
     protected abstract fun deleteDishes()

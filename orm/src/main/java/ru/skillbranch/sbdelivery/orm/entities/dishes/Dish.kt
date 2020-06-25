@@ -47,6 +47,9 @@ open class Dish {
     // Признак "избранного" блюда
     var favorite: Boolean = false
 
+    // Признак "рекомендуемого" блюда
+    var recommended: Boolean = false
+
     // Дата создания (мс)
     var createdAt: Long = 0
 

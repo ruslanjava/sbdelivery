@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery
+package ru.skillbranch.sbdelivery.ui.screens
 
 sealed class LoadResult<T> (
     val data: T?,

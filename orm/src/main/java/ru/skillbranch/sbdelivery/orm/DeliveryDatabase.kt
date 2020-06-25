@@ -16,10 +16,12 @@ import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 abstract class DeliveryDatabase: RoomDatabase() {
 
     abstract fun cartDao(): CartDao
+    abstract fun categoryDao(): CategoryDao
     abstract fun dishDao(): DishDao
 
     fun dropDatabase() {
         cartDao().clearTables()
+        categoryDao().clearTables()
         dishDao().clearTables()
     }
     

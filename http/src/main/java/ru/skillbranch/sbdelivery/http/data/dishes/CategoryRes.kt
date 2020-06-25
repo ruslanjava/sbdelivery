@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 class CategoryRes {
 
     // ID категории
-    @Json(name = "id")
+    @Json(name = "categoryId")
     lateinit var id: String
 
     // Название категории
@@ -17,7 +17,7 @@ class CategoryRes {
     var order: Int = 0
 
     // Ссылка на иконку, опционально
-    @Json(name = "image")
+    @Json(name = "icon")
     var image: String? = null
 
     // ID Родительской категории, опционально (если есть, то это подкатегория)

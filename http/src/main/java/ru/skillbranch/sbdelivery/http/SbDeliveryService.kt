@@ -49,7 +49,7 @@ interface SbDeliveryService {
     ): List<CategoryRes>
 
     @GET("/main/recommend")
-    suspend fun recommendedIds() : List<Int>
+    suspend fun recommendedIds() : List<String>
 
     @GET("/dishes")
     suspend fun dishes(

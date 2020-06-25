@@ -15,7 +15,7 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-internal class EncryptedSharedPreferences(private val prefs: SharedPreferences) : SharedPreferences {
+class EncryptedSharedPreferences(private val prefs: SharedPreferences) : SharedPreferences {
 
     override fun contains(key: String?): Boolean {
         return prefs.contains(key)
@@ -179,13 +179,13 @@ internal class EncryptedSharedPreferences(private val prefs: SharedPreferences) 
                 val fullText = Base64.decode(encrypted, Base64.DEFAULT)
                 val salt = ByteArray(24)
                 val iv = ByteArray(16)
-                var encrypted = ByteArray(0)
+                var encryptedKey = ByteArray(0)
                 DataInputStream(ByteArrayInputStream(fullText)).use {
                     it.read(salt)
                     it.read(iv)
                     val encryptedSize = it.readInt()
-                    encrypted = ByteArray(encryptedSize)
-                    it.read(encrypted)
+                    encryptedKey = ByteArray(encryptedSize)
+                    it.read(encryptedKey)
                 }
 
                 val factory: SecretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
@@ -195,7 +195,7 @@ internal class EncryptedSharedPreferences(private val prefs: SharedPreferences) 
 
                 val cipher: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
                 cipher.init(Cipher.DECRYPT_MODE, secretKey, IvParameterSpec(iv))
-                return cipher.doFinal(encrypted)
+                return cipher.doFinal(encryptedKey)
             }
         }
 

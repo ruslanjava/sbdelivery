@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.screens.splash.SplashFragment">
 
-    <ru.skillbranch.sbdelivery.ui.screens.custom.BackgroundTiledView
+    <ru.skillbranch.sbdelivery.ui.custom.BackgroundTiledView
         android:id="@+id/splash_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/splash_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"

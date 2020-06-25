@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.screens.custom
+package ru.skillbranch.sbdelivery.ui.custom
 
 import android.content.res.ColorStateList
 import android.graphics.Canvas

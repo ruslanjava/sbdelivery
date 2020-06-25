@@ -44,6 +44,7 @@ dependencies {
 
     implementation project(':orm')
     implementation project(':http')
+    implementation project(':prefs')
 
     // Android
     implementation AndroidLibs.appCompat
@@ -72,6 +73,11 @@ dependencies {
     implementation GlideLibs.glide
     kapt GlideLibs.compiler
     implementation ImageLibs.touchImage
+
+    // Room
+    implementation RoomLibs.roomRuntime
+    implementation RoomLibs.roomKtx
+    kapt RoomLibs.roomCompiler
 
     // Test
     testImplementation 'junit:junit:4.12'

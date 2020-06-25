@@ -12,7 +12,7 @@ import ru.skillbranch.sbdelivery.http.auth.AuthorizedCallAdapterFactory
 import ru.skillbranch.sbdelivery.http.auth.AuthorizedInterceptor
 import java.util.concurrent.TimeUnit
 
-internal object SbDeliveryServiceFactory {
+object SbDeliveryServiceFactory {
 
     val instance: SbDeliveryService by lazy {
         val factories: MutableList<CallAdapter.Factory>  = mutableListOf()

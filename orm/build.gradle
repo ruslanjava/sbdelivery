@@ -32,6 +32,9 @@ dependencies {
     implementation KotlinLibs.stdLib
     implementation KotlinLibs.coreKtx
 
+    // Lifecycle
+    implementation LifecycleLibs.liveDataKtx
+
     // Room
     implementation RoomLibs.roomRuntime
     implementation RoomLibs.roomKtx
