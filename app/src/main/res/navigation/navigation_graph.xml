@@ -22,6 +22,16 @@
         android:id="@+id/nav_main"
         android:name="ru.skillbranch.sbdelivery.ui.screens.main.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_nav_main_to_nav_about"
+            app:destination="@id/nav_about" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="ru.skillbranch.sbdelivery.ui.screens.about.AboutFragment"
+        android:label="AboutFragment"
+        tools:layout="@layout/fragment_about"/>
 
 </navigation>

@@ -18,4 +18,6 @@
     <string name="main_best">Лучшее</string>
     <string name="main_popular">Популярное</string>
 
+    <string name="about_version">Версия приложения</string>
+
 </resources>

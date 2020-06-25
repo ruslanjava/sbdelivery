@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_menu_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
@@ -48,6 +49,13 @@
         app:layout_constraintTop_toTopOf="@id/nav_header_user"
         app:srcCompat="@drawable/ic_logout" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/nav_header_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="nav_header_user,nav_header_email,nav_header_logout" />
+
     <ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItemView
         android:id="@+id/nav_about"
         android:layout_width="match_parent"
@@ -56,7 +64,8 @@
         app:name="@string/main_about"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/margin_small" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -73,6 +82,7 @@
                 android:id="@+id/nav_main_item"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/navItemHeight"
+                android:layout_marginTop="@dimen/margin_small"
                 app:icon="@drawable/ic_main"
                 app:name="@string/main_main" />
 

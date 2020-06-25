@@ -16,9 +16,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
 import ru.skillbranch.sbdelivery.databinding.FragmentMainBinding
+import ru.skillbranch.sbdelivery.databinding.FragmentMainContentBinding
+import ru.skillbranch.sbdelivery.databinding.NavMenuMainBinding
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 import ru.skillbranch.sbdelivery.ui.dishList.DishAdapter
 import ru.skillbranch.sbdelivery.ui.dishList.DishItemDiffUtilCallback
+import ru.skillbranch.sbdelivery.ui.screens.main.MainViewModel.MainMenuItem
 
 class MainFragment : Fragment() {
 
@@ -26,6 +29,8 @@ class MainFragment : Fragment() {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
+
+    private lateinit var navHeaderGroup: Group
 
     private lateinit var recommendedGroup: Group
     private lateinit var rvRecommendedList: RecyclerView
@@ -49,20 +54,7 @@ class MainFragment : Fragment() {
         val activity = activity as RootActivity
         activity.setSupportActionBar(customToolbar)
 
-        recommendedGroup = view.findViewById(R.id.recommended_group)
-        rvRecommendedList = view.findViewById(R.id.rv_recommended_list)
-        recommendedAdapter = createDishAdapter()
-        rvRecommendedList.adapter = recommendedAdapter
-
-        bestGroup = view.findViewById(R.id.best_group)
-        rvBestList = view.findViewById(R.id.rv_best_list)
-        bestAdapter = createDishAdapter()
-        rvBestList.adapter = bestAdapter
-
-        popularGroup = view.findViewById(R.id.popular_group)
-        rvPopularList = view.findViewById(R.id.rv_popular_list)
-        popularAdapter = createDishAdapter()
-        rvPopularList.adapter = popularAdapter
+        bindContentViews(view)
 
         drawerLayout = view.findViewById(R.id.drawer_layout) as DrawerLayout
         drawerToggle = object : ActionBarDrawerToggle(
@@ -74,6 +66,7 @@ class MainFragment : Fragment() {
         ) {
 
         }
+        bindMenuItems(view)
 
         setHasOptionsMenu(true)
         return view
@@ -99,6 +92,15 @@ class MainFragment : Fragment() {
             popularGroup.visibility = if (dishes.isEmpty()) View.GONE else View.VISIBLE
         })
 
+        viewModel.menuItemClicks().observe(viewLifecycleOwner, Observer<MainMenuItem> { item ->
+            val activity = activity as RootActivity
+            val navController = activity.navController
+            when (item) {
+                MainMenuItem.ABOUT -> navController.navigate(R.id.action_nav_main_to_nav_about)
+                else -> {} /* */
+            }
+        })
+
         drawerToggle.syncState()
     }
 
@@ -117,6 +119,39 @@ class MainFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun bindContentViews(view: View) {
+        val mainBinding = FragmentMainContentBinding.bind(view.findViewById(R.id.fragment_main_content))
+        recommendedGroup = mainBinding.recommendedGroup
+        rvRecommendedList = mainBinding.rvRecommendedList
+        recommendedAdapter = createDishAdapter()
+        rvRecommendedList.adapter = recommendedAdapter
+
+        bestGroup = mainBinding.bestGroup
+        rvBestList = mainBinding.rvBestList
+        bestAdapter = createDishAdapter()
+        rvBestList.adapter = bestAdapter
+
+        popularGroup = mainBinding.popularGroup
+        rvPopularList = mainBinding.rvPopularList
+        popularAdapter = createDishAdapter()
+        rvPopularList.adapter = popularAdapter
+    }
+
+    private fun bindMenuItems(view: View) {
+        val menuBinding = NavMenuMainBinding.bind(view.findViewById(R.id.nav_menu_main))
+        navHeaderGroup = menuBinding.navHeaderGroup
+
+        menuBinding.navMainItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.MAIN) }
+        menuBinding.navMenuItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.MENU) }
+        menuBinding.navFavoriteItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.FAVORITE) }
+        menuBinding.navCartItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.CART) }
+        menuBinding.navProfileItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.PROFILE) }
+        menuBinding.navOrdersItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.ORDERS) }
+        menuBinding.navNotificationsItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.NOTIFICATIONS) }
+
+        menuBinding.navAbout.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.ABOUT) }
     }
 
     private fun createDishAdapter(): DishAdapter {

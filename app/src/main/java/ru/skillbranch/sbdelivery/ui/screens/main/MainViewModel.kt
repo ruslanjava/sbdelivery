@@ -15,6 +15,8 @@ class MainViewModel : ViewModel() {
     private val addedDishes: MutableLiveData<Dish> = MutableLiveData()
     private val clickedDishes: MutableLiveData<Dish> = MutableLiveData()
 
+    private val menuItemClicks: MutableLiveData<MainMenuItem> = MutableLiveData()
+
     @ExperimentalCoroutinesApi
     fun popularDishes(): LiveData<List<Dish>> {
         return database.dishDao().getPopularDishes()
@@ -30,12 +32,16 @@ class MainViewModel : ViewModel() {
         return database.dishDao().getBestDishes()
     }
 
-    fun addedDishes(): MutableLiveData<Dish> {
+    fun addedDishes(): LiveData<Dish> {
         return addedDishes
     }
 
-    fun clickedDishes(): MutableLiveData<Dish> {
+    fun clickedDishes(): LiveData<Dish> {
         return clickedDishes
+    }
+
+    fun menuItemClicks(): LiveData<MainMenuItem> {
+        return menuItemClicks
     }
 
     fun handleAddClick(dish: Dish) {
@@ -44,6 +50,24 @@ class MainViewModel : ViewModel() {
 
     fun handleDishClick(dish: Dish) {
         clickedDishes.postValue(dish)
+    }
+
+    fun handleMainItemClick(menuItem: MainMenuItem) {
+        menuItemClicks.postValue(menuItem)
+    }
+
+    enum class MainMenuItem {
+
+        MAIN,
+        MENU,
+        FAVORITE,
+        CART,
+        PROFILE,
+        ORDERS,
+        NOTIFICATIONS,
+
+        ABOUT
+
     }
 
 }
