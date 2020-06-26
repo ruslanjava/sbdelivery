@@ -1,46 +1,53 @@
 package ru.skillbranch.sbdelivery.ui.screens.main
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
 import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
+import ru.skillbranch.sbdelivery.orm.DishDao
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
+import ru.skillbranch.sbdelivery.repository.SingleLiveData
 
-class MainViewModel : ViewModel() {
+internal class MainViewModel : ViewModel() {
 
-    private val database: DeliveryDatabase = DeliveryDatabase.getInstance(SbDeliveryApplication.context)
+    private val database: DeliveryDatabase by lazy {
+        DeliveryDatabase.getInstance(SbDeliveryApplication.context)
+    }
+    private val dishDao: DishDao by lazy { database.dishDao() }
 
-    private val addedDishes: MutableLiveData<Dish> = MutableLiveData()
-    private val clickedDishes: MutableLiveData<Dish> = MutableLiveData()
+    private val addedDishes: SingleLiveData<Dish> =
+        SingleLiveData()
+    private val clickedDishes: SingleLiveData<Dish> =
+        SingleLiveData()
 
-    private val menuItemClicks: MutableLiveData<MainMenuItem> = MutableLiveData()
+    private val menuItemClicks: SingleLiveData<MainMenuItem> =
+        SingleLiveData()
 
     @ExperimentalCoroutinesApi
     fun popularDishes(): LiveData<List<Dish>> {
-        return database.dishDao().getPopularDishes()
+        return dishDao.getPopularDishes()
     }
 
     @ExperimentalCoroutinesApi
     fun recommendedDishes(): LiveData<List<Dish>> {
-        return database.dishDao().getRecommendedDishes()
+        return dishDao.getRecommendedDishes()
     }
 
     @ExperimentalCoroutinesApi
     fun bestDishes(): LiveData<List<Dish>> {
-        return database.dishDao().getBestDishes()
+        return dishDao.getBestDishes()
     }
 
-    fun addedDishes(): LiveData<Dish> {
+    fun addedDishes(): LiveData<Dish?> {
         return addedDishes
     }
 
-    fun clickedDishes(): LiveData<Dish> {
+    fun clickedDishes(): LiveData<Dish?> {
         return clickedDishes
     }
 
-    fun menuItemClicks(): LiveData<MainMenuItem> {
+    fun menuItemClicks(): LiveData<MainMenuItem?> {
         return menuItemClicks
     }
 
@@ -54,20 +61,6 @@ class MainViewModel : ViewModel() {
 
     fun handleMainItemClick(menuItem: MainMenuItem) {
         menuItemClicks.postValue(menuItem)
-    }
-
-    enum class MainMenuItem {
-
-        MAIN,
-        MENU,
-        FAVORITE,
-        CART,
-        PROFILE,
-        ORDERS,
-        NOTIFICATIONS,
-
-        ABOUT
-
     }
 
 }

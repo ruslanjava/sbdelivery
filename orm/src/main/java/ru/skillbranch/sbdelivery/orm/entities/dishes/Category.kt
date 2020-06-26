@@ -35,4 +35,15 @@ class Category {
     // Дата обновления (в миллисекундах)
     var updatedAt: Long = 0
 
+    companion object {
+
+        val SALES by lazy {
+            val sales = Category()
+            sales.id = "-1"
+            sales.name = "Sales"
+            sales
+        }
+
+    }
+
 }

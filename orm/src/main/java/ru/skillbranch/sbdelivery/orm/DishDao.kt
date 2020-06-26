@@ -22,6 +22,12 @@ abstract class DishDao {
     @Query("SELECT * FROM dish")
     abstract fun getDishes(): List<Dish>
 
+    @Query("SELECT * FROM dish WHERE oldPrice > 0")
+    abstract fun getSaleDishes(): LiveData<List<Dish>>
+
+    @Query("SELECT * FROM dish WHERE oldPrice > 0 LIMIT 1")
+    abstract fun getFirstSaleDish(): Dish?
+
     @Query("SELECT * FROM dish WHERE recommended = 1")
     abstract fun getRecommendedDishes(): LiveData<List<Dish>>
 
@@ -59,5 +65,9 @@ abstract class DishDao {
 
     @Query("DELETE FROM dish")
     protected abstract fun deleteDishes()
+
+    open fun hasSaleDishes(): Boolean {
+        return getFirstSaleDish() != null
+    }
 
 }

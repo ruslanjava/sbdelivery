@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,9 +18,8 @@ import ru.skillbranch.sbdelivery.databinding.FragmentMainBinding
 import ru.skillbranch.sbdelivery.databinding.FragmentMainContentBinding
 import ru.skillbranch.sbdelivery.databinding.NavMenuMainBinding
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
-import ru.skillbranch.sbdelivery.ui.dishList.DishAdapter
-import ru.skillbranch.sbdelivery.ui.dishList.DishItemDiffUtilCallback
-import ru.skillbranch.sbdelivery.ui.screens.main.MainViewModel.MainMenuItem
+import ru.skillbranch.sbdelivery.ui.dishList.DishListAdapter
+import ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItem.*
 
 class MainFragment : Fragment() {
 
@@ -34,15 +32,15 @@ class MainFragment : Fragment() {
 
     private lateinit var recommendedGroup: Group
     private lateinit var rvRecommendedList: RecyclerView
-    private lateinit var recommendedAdapter: DishAdapter
+    private lateinit var recommendedAdapter: DishListAdapter
 
     private lateinit var bestGroup: Group
     private lateinit var rvBestList: RecyclerView
-    private lateinit var bestAdapter: DishAdapter
+    private lateinit var bestAdapter: DishListAdapter
 
     private lateinit var popularGroup: Group
     private lateinit var rvPopularList: RecyclerView
-    private lateinit var popularAdapter: DishAdapter
+    private lateinit var popularAdapter: DishListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -92,12 +90,17 @@ class MainFragment : Fragment() {
             popularGroup.visibility = if (dishes.isEmpty()) View.GONE else View.VISIBLE
         })
 
-        viewModel.menuItemClicks().observe(viewLifecycleOwner, Observer<MainMenuItem> { item ->
-            val activity = activity as RootActivity
-            val navController = activity.navController
-            when (item) {
-                MainMenuItem.ABOUT -> navController.navigate(R.id.action_nav_main_to_nav_about)
-                else -> {} /* */
+        viewModel.menuItemClicks().observe(viewLifecycleOwner, Observer { item ->
+            if (item != null) {
+                val activity = activity as RootActivity
+                val navController = activity.navController
+                drawerLayout.closeDrawer(Gravity.LEFT)
+
+                when (item) {
+                    MENU -> navController.navigate(R.id.action_nav_main_to_nav_menu)
+                    ABOUT -> navController.navigate(R.id.action_nav_main_to_nav_about)
+                    else -> {} /* */
+                }
             }
         })
 
@@ -143,29 +146,26 @@ class MainFragment : Fragment() {
         val menuBinding = NavMenuMainBinding.bind(view.findViewById(R.id.nav_menu_main))
         navHeaderGroup = menuBinding.navHeaderGroup
 
-        menuBinding.navMainItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.MAIN) }
-        menuBinding.navMenuItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.MENU) }
-        menuBinding.navFavoriteItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.FAVORITE) }
-        menuBinding.navCartItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.CART) }
-        menuBinding.navProfileItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.PROFILE) }
-        menuBinding.navOrdersItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.ORDERS) }
-        menuBinding.navNotificationsItem.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.NOTIFICATIONS) }
+        menuBinding.navMainItem.bind(MAIN)
+        menuBinding.navMenuItem.bind(MENU)
+        menuBinding.navFavoriteItem.bind(FAVORITE)
+        menuBinding.navCartItem.bind(CART)
+        menuBinding.navProfileItem.bind(PROFILE)
+        menuBinding.navOrdersItem.bind(ORDERS)
+        menuBinding.navNotificationsItem.bind(NOTIFICATIONS)
 
-        menuBinding.navAbout.setOnClickListener { viewModel.handleMainItemClick(MainMenuItem.ABOUT) }
+        menuBinding.navAbout.bind(ABOUT)
     }
 
-    private fun createDishAdapter(): DishAdapter {
-        return DishAdapter(
+    private fun MainMenuItemView.bind(menuItem: MainMenuItem) {
+        setOnClickListener { viewModel.handleMainItemClick(menuItem) }
+    }
+
+    private fun createDishAdapter(): DishListAdapter {
+        return DishListAdapter(
             { dish -> viewModel.handleAddClick(dish) },
             { dish -> viewModel.handleDishClick(dish) }
         )
-    }
-
-    private fun DishAdapter.updateItems(dishes: List<Dish>) {
-        val callback = DishItemDiffUtilCallback(items, dishes)
-        val result = DiffUtil.calculateDiff(callback)
-        items = dishes
-        result.dispatchUpdatesTo(this)
     }
 
 }

@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import ru.skillbranch.sbdelivery.R
-import ru.skillbranch.sbdelivery.databinding.ViewMainMenuItemBinding
+import ru.skillbranch.sbdelivery.databinding.ViewDrawerMenuItemBinding
 
 class MainMenuItemView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     init {
-        val binding = ViewMainMenuItemBinding.inflate(LayoutInflater.from(context))
+        val binding = ViewDrawerMenuItemBinding.inflate(LayoutInflater.from(context))
         addView(binding.root)
 
         val iconView = binding.mainMenuItemIcon

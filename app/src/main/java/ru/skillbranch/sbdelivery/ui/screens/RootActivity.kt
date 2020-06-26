@@ -61,6 +61,10 @@ class RootActivity : AppCompatActivity() {
         })
     }
 
+    override fun onBackPressed() {
+        navController.popBackStack()
+    }
+
     private fun initViewModel() {
         val vmFactory = RootViewModelFactory(this.application)
         viewModel = ViewModelProviders.of(this, vmFactory).get(RootViewModel::class.java)
