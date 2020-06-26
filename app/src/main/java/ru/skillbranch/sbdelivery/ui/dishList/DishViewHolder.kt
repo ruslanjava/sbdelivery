@@ -38,7 +38,7 @@ class DishViewHolder(
     }
 
     fun bind(item: Dish) {
-        tvSaleView.visibility = if (item.oldPrice != null) View.VISIBLE else View.INVISIBLE
+        tvSaleView.visibility = if (item.oldPrice != null) View.VISIBLE else View.GONE
         tvNameView.text = item.name
         tvPriceView.text = "${item.price} ₽"
 

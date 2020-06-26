@@ -5,7 +5,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 
-class TilingDrawable(drawable: Drawable, val backgroundColor: Int) : DrawableWrapper(drawable) {
+internal class TilingDrawable(drawable: Drawable, val backgroundColor: Int) : DrawableWrapper(drawable) {
 
     private var callbackEnabled = true
 

@@ -43,10 +43,10 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dish_sale"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/sale_background"
+                android:background="@drawable/background_sale"
                 android:backgroundTint="?attr/saleColor"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
@@ -70,7 +70,7 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dish_background"
-                tools:text="1280 Р" />
+                tools:text="1280 ₽" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dish_name"

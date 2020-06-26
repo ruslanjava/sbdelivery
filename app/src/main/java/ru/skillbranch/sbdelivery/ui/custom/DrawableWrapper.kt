@@ -8,7 +8,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.DrawableCompat
 
-open class DrawableWrapper(drawable: Drawable) : Drawable(), Drawable.Callback {
+internal open class DrawableWrapper(drawable: Drawable) : Drawable(), Drawable.Callback {
 
     var wrappedDrawable: Drawable = drawable
         set(drawable) {

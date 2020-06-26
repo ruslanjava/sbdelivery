@@ -22,4 +22,8 @@
 
     <string name="about_version">Версия приложения</string>
 
+    <string name="dish_add_to_cart">Добавить в корзину</string>
+    <string name="dish_sale">АКЦИЯ</string>
+    <string name="dish_reviews_header">Отзывы</string>
+
 </resources>

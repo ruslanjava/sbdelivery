@@ -3,6 +3,9 @@
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">22sp</dimen>
 
+    <dimen name="text_size_dish_title">22sp</dimen>
+    <dimen name="text_size_dish_description">13sp</dimen>
+
     <dimen name="nav_item_height">56dp</dimen>
 
     <dimen name="margin_small">8dp</dimen>

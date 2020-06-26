@@ -13,4 +13,7 @@
     <attr name="textSizeLarge" format="reference" />
 
     <attr name="navItemHeight" format="reference" />
+
+    <attr name="pickerBorderColor" format="reference" />
+    <attr name="commentBackgroundColor" format="reference" />
 </resources>
