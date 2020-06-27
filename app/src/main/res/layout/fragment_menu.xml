@@ -19,6 +19,6 @@
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
-        tools:listitem="@layout/view_category_menu_item" />
+        tools:listitem="@layout/view_list_item_category" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

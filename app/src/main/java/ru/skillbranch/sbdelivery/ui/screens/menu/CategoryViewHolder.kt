@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import ru.skillbranch.sbdelivery.R
-import ru.skillbranch.sbdelivery.databinding.ViewCategoryMenuItemBinding
+import ru.skillbranch.sbdelivery.databinding.ViewListItemCategoryBinding
 import ru.skillbranch.sbdelivery.glide.SvgSoftwareLayerSetter
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
-
 
 class CategoryViewHolder(
     itemView: View, clickListener: (Category) -> Unit
@@ -28,7 +27,7 @@ class CategoryViewHolder(
     private val requestBuilder: RequestBuilder<PictureDrawable>
 
     init {
-        val binding = ViewCategoryMenuItemBinding.bind(itemView)
+        val binding = ViewListItemCategoryBinding.bind(itemView)
         itemView.setOnClickListener(itemClickListener)
 
         ivIconView = binding.menuItemIcon

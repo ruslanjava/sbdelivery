@@ -1,25 +1,23 @@
-package ru.skillbranch.sbdelivery.ui.screens.menu
+package ru.skillbranch.sbdelivery.ui.screens.dish
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.sbdelivery.R
-import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
+import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
 
-class CategoryListAdapter(
-    private val clickListener: (Category) -> Unit
-): RecyclerView.Adapter<CategoryViewHolder>() {
+class CommentListAdapter(): RecyclerView.Adapter<CommentViewHolder>() {
 
-    var items: List<Category> = listOf()
+    var items: List<ReviewRes> = listOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.view_list_item_category, parent, false)
-        return CategoryViewHolder(view, clickListener)
+        val view = layoutInflater.inflate(R.layout.view_list_item_comment, parent, false)
+        return CommentViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
     }
@@ -28,15 +26,15 @@ class CategoryListAdapter(
         return items.size
     }
 
-    fun updateItems(categories: List<Category>) {
-        val callback = CategoryDiffUtilCallback(items, categories)
+    fun updateItems(reviews: List<ReviewRes>) {
+        val callback = CategoryDiffUtilCallback(items, reviews)
         val result = DiffUtil.calculateDiff(callback)
-        items = categories
+        items = reviews
         result.dispatchUpdatesTo(this)
     }
 
     internal class CategoryDiffUtilCallback(
-        private val oldItems: List<Category>, private val newItems: List<Category>
+        private val oldItems: List<ReviewRes>, private val newItems: List<ReviewRes>
     ): DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {
@@ -57,7 +55,8 @@ class CategoryListAdapter(
             val oldItem = oldItems[oldItemPosition]
             val newItem = newItems[newItemPosition]
             return oldItem.id == newItem.id &&
-                    oldItem.name.equals(newItem.name) &&
+                    oldItem.author.equals(newItem.author) &&
+                    oldItem.text.equals(newItem.text) &&
                     oldItem.updatedAt == newItem.updatedAt
         }
 

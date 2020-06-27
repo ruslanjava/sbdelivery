@@ -10,10 +10,6 @@ import ru.skillbranch.sbdelivery.R
 
 class DishFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DishFragment()
-    }
-
     private lateinit var viewModel: DishViewModel
 
     override fun onCreateView(
