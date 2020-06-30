@@ -1,6 +1,6 @@
 package ru.skillbranch.sbdelivery.ui.screens
 
-sealed class LoadResult<T> (
+internal sealed class LoadResult<T> (
     val data: T?,
     val errorMessage: String? = null
 ) {

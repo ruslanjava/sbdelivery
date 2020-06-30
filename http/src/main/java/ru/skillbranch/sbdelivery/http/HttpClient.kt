@@ -8,11 +8,13 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import ru.skillbranch.sbdelivery.http.data.dishes.CategoryRes
 import ru.skillbranch.sbdelivery.http.data.dishes.DishRes
+import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
 
 object HttpClient {
 
     private val LAST_CATEGORY = listOf<CategoryRes>()
     private val LAST_DISH = listOf<DishRes>()
+    private val LAST_REVIEW = listOf<ReviewRes>()
 
     private val service = SbDeliveryServiceFactory.instance
     private val scope = CoroutineScope(Dispatchers.IO)
@@ -96,6 +98,41 @@ object HttpClient {
     }
 
     @ExperimentalCoroutinesApi
+    suspend fun getAllReviews(dishId: String): List<ReviewRes> {
+        val result = mutableListOf<ReviewRes>()
+
+        // запускаем параллельные "сборщики" комментариев
+        val channels = mutableListOf<Channel<List<ReviewRes>>>()
+        for (i in 0 until THREADS) {
+            val channel = startCommentChannel(dishId, i)
+            channels.add(channel)
+        }
+
+        // собираем информацию от "сборщиков" через каналы, пока "жив" хотя бы один из них
+        var alive = THREADS
+        while (alive > 0) {
+            for (i in 0 until THREADS) {
+                val channel = channels[i]
+                if (channel.isClosedForReceive) {
+                    continue
+                }
+
+                val reviews = channel.receive()
+                // паттерн "последний чемодан"
+                if (reviews == LAST_REVIEW) {
+                    channel.close()
+                    alive--
+                    continue
+                }
+
+                result.addAll(reviews)
+            }
+        }
+
+        return result
+    }
+
+    @ExperimentalCoroutinesApi
     private suspend fun startCategoryChannel(threadNumber: Int): Channel<List<CategoryRes>> {
         val channel = Channel<List<CategoryRes>>()
         scope.launch {
@@ -148,6 +185,36 @@ object HttpClient {
                 }
 
                 channel.send(dishes)
+                offset += THREADS * LIMIT
+            }
+        }
+        return channel
+    }
+
+    @ExperimentalCoroutinesApi
+    private suspend fun startCommentChannel(dishId: String, threadNumber: Int): Channel<List<ReviewRes>> {
+        val channel = Channel<List<ReviewRes>>()
+        scope.launch {
+            var offset = threadNumber * LIMIT
+            while (!channel.isClosedForSend) {
+                var reviews: List<ReviewRes>
+                try {
+                    reviews = service.reviews(dishId, offset, LIMIT)
+                } catch (e: HttpException) {
+                    if (e.code() == 304) {
+                        reviews = listOf()
+                    } else {
+                        throw e
+                    }
+                }
+
+                if (reviews.isEmpty()) {
+                    // отправляем пустой список (паттерн "последний чемодан")
+                    channel.send(LAST_REVIEW)
+                    break
+                }
+
+                channel.send(reviews)
                 offset += THREADS * LIMIT
             }
         }

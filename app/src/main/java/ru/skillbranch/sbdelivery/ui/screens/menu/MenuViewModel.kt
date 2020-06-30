@@ -11,6 +11,7 @@ import ru.skillbranch.sbdelivery.orm.CategoryDao
 import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.DishDao
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
+import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 import ru.skillbranch.sbdelivery.repository.SingleLiveData
 
 class MenuViewModel : ViewModel() {
@@ -22,6 +23,7 @@ class MenuViewModel : ViewModel() {
     private val categoryDao: CategoryDao by lazy { database.categoryDao() }
 
     private val categoryClicks = SingleLiveData<Category>()
+    private val dishClicks = SingleLiveData<Dish>()
 
     fun categories(): LiveData<List<Category>> {
         val result = MutableLiveData<List<Category>>()
@@ -44,6 +46,14 @@ class MenuViewModel : ViewModel() {
 
     fun handleCategoryClick(category: Category) {
         categoryClicks.postValue(category)
+    }
+
+    fun dishClicks(): LiveData<Dish?> {
+        return dishClicks
+    }
+
+    fun handleDishClick(dish: Dish) {
+        dishClicks.postValue(dish)
     }
 
 }

@@ -1,13 +1,10 @@
 package ru.skillbranch.sbdelivery.ui.screens
 
-import android.app.Application
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
@@ -17,9 +14,10 @@ import ru.skillbranch.sbdelivery.databinding.ActivityRootBinding
 
 class RootActivity : AppCompatActivity() {
 
-    lateinit var rootContainer: ViewGroup
     lateinit var navController: NavController
-    private lateinit var viewModel: RootViewModel
+
+    private lateinit var rootContainer: ViewGroup
+    private val viewModel: RootViewModel by viewModels()
 
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +30,6 @@ class RootActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this,
             R.id.nav_host_fragment
         )
-        initViewModel()
 
         val firstStart = savedInstanceState == null
         if (firstStart) {
@@ -42,7 +39,7 @@ class RootActivity : AppCompatActivity() {
 
     @ExperimentalCoroutinesApi
     private fun loadData() {
-        viewModel.syncDataIfNeed().observe(this, Observer<LoadResult<Boolean>> { result ->
+        viewModel.syncDataIfNeed().observe(this, Observer { result ->
             when (result) {
                 is LoadResult.Loading -> {
                     navController.navigate(R.id.nav_splash)
@@ -63,22 +60,6 @@ class RootActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         navController.popBackStack()
-    }
-
-    private fun initViewModel() {
-        val vmFactory = RootViewModelFactory(this.application)
-        viewModel = ViewModelProviders.of(this, vmFactory).get(RootViewModel::class.java)
-    }
-
-    class RootViewModelFactory(private val app: Application) : ViewModelProvider.Factory {
-
-        override fun <T: ViewModel> create(modelClass: Class<T>) : T {
-            if (modelClass.isAssignableFrom(RootViewModel::class.java)) {
-                return RootViewModel(app) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-
     }
 
 }

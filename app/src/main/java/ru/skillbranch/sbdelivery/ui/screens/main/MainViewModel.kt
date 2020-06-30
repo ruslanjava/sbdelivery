@@ -16,13 +16,9 @@ internal class MainViewModel : ViewModel() {
     }
     private val dishDao: DishDao by lazy { database.dishDao() }
 
-    private val addedDishes: SingleLiveData<Dish> =
-        SingleLiveData()
-    private val clickedDishes: SingleLiveData<Dish> =
-        SingleLiveData()
-
-    private val menuItemClicks: SingleLiveData<MainMenuItem> =
-        SingleLiveData()
+    private val addedDishes: SingleLiveData<Dish> = SingleLiveData()
+    private val clickedDishes: SingleLiveData<Dish> = SingleLiveData()
+    private val menuItemClicks: SingleLiveData<MainMenuItem> = SingleLiveData()
 
     @ExperimentalCoroutinesApi
     fun popularDishes(): LiveData<List<Dish>> {

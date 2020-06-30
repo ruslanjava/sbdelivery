@@ -31,6 +31,9 @@
             android:id="@+id/action_nav_main_to_nav_menu"
             app:destination="@id/nav_menu"
             app:popUpTo="@id/nav_main" />
+        <action
+            android:id="@+id/action_nav_main_to_nav_dish"
+            app:destination="@id/nav_dish" />
     </fragment>
 
     <fragment
@@ -38,10 +41,21 @@
         android:name="ru.skillbranch.sbdelivery.ui.screens.about.AboutFragment"
         android:label="AboutFragment"
         tools:layout="@layout/fragment_about"/>
+
     <fragment
         android:id="@+id/nav_menu"
         android:name="ru.skillbranch.sbdelivery.ui.screens.menu.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" />
+
+    <fragment
+        android:id="@+id/nav_dish"
+        android:name="ru.skillbranch.sbdelivery.ui.screens.dish.DishFragment"
+        android:label="fragment_dish"
+        tools:layout="@layout/fragment_dish" >
+        <argument
+            android:name="dishId"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

@@ -10,10 +10,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import ru.skillbranch.sbdelivery.databinding.FragmentSplashBinding
 
-
 class SplashFragment: Fragment() {
 
-    lateinit var ivSplashLogo: AppCompatImageView
+    private lateinit var ivSplashLogo: AppCompatImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

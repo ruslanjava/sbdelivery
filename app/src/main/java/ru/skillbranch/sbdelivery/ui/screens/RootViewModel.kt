@@ -17,21 +17,21 @@ class RootViewModel(val app: Application) : AndroidViewModel(app) {
     private val repository = RootRepository
 
     @ExperimentalCoroutinesApi
-    fun syncDataIfNeed() : LiveData<LoadResult<Boolean>> {
+    internal fun syncDataIfNeed() : LiveData<LoadResult<Boolean>> {
         val result : MutableLiveData<LoadResult<Boolean>> = MutableLiveData(
             LoadResult.Loading(false)
         )
 
         viewModelScope.launch(Dispatchers.IO) {
             if (repository.isNeedUpdate()) {
-                if (!app.applicationContext.isNetworkAvailable()) {
+                if (app.applicationContext.isNetworkAvailable()) {
+                    repository.sync()
+                    result.postValue(LoadResult.Success(true))
+                } else {
                     result.postValue(LoadResult.Error<Boolean>(
-                            "Интернет недоступен, приложение может работать некорректно"
+                        "Интернет недоступен, приложение может работать некорректно"
                     ))
-                    return@launch
                 }
-                repository.sync()
-                result.postValue(LoadResult.Success(true))
             } else {
                 delay(3000)
                 result.postValue(LoadResult.Success(true))

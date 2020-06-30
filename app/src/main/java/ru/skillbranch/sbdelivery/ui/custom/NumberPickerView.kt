@@ -27,6 +27,8 @@ class NumberPickerView(context: Context, attributeSet: AttributeSet) : FrameLayo
 
         decreaseButton.setOnClickListener { setValue(number - 1) }
         increaseButton.setOnClickListener {setValue(number + 1) }
+
+        setValue(1)
     }
 
     fun setValue(value: Int) {

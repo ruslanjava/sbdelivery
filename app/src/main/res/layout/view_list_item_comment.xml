@@ -34,7 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Екатерина, 19.03.20" />
 
-            <RatingBar
+            <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/comment_rating"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"

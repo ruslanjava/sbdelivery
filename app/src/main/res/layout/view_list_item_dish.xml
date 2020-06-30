@@ -46,17 +46,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:maxLines="1"
                 android:background="@drawable/background_sale"
                 android:backgroundTint="?attr/saleColor"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:paddingStart="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
                 android:paddingEnd="10dp"
                 android:textColor="?attr/windowBackground"
                 android:textSize="10sp"
+                android:text="@string/dish_sale"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="АКЦИЯ" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dish_price"
