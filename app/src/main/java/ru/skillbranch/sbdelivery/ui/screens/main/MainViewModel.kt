@@ -19,8 +19,6 @@ internal class MainViewModel : ViewModel() {
     private val dishDao: DishDao by lazy { database.dishDao() }
 
     private val recommendedDishes: MediatorLiveData<List<Dish>> = MediatorLiveData()
-    private val bestDishes: MediatorLiveData<List<Dish>> = MediatorLiveData()
-    private val popularDishes: MediatorLiveData<List<Dish>> = MediatorLiveData()
 
     private val addedDishes: SingleLiveData<Dish> = SingleLiveData()
     private val clickedDishes: SingleLiveData<Dish> = SingleLiveData()
