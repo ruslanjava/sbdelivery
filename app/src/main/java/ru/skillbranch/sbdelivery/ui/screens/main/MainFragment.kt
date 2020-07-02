@@ -149,6 +149,10 @@ class MainFragment : Fragment() {
         rvPopularList = mainBinding.rvPopularList
         popularAdapter = createDishAdapter()
         rvPopularList.adapter = popularAdapter
+
+        mainBinding.tvMainBestFurther.setOnClickListener { viewModel.handleMainItemClick(MENU) }
+        mainBinding.tvMainPopularFurther.setOnClickListener { viewModel.handleMainItemClick(MENU) }
+        mainBinding.tvMainRecommendedFurther.setOnClickListener { viewModel.handleMainItemClick(MENU) }
     }
 
     private fun bindMenuItems(view: View) {
