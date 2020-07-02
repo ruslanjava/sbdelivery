@@ -29,7 +29,7 @@ abstract class DishDao {
     abstract fun getFirstSaleDish(): Dish?
 
     @Query("SELECT * FROM dish WHERE recommended = 1")
-    abstract fun getRecommendedDishes(): LiveData<List<Dish>>
+    abstract fun getRecommendedDishes(): List<Dish>
 
     @Query("SELECT * FROM dish WHERE rating >= 4.8 LIMIT 10 ")
     abstract fun getBestDishes(): LiveData<List<Dish>>
@@ -59,12 +59,24 @@ abstract class DishDao {
     abstract fun update(dishes: List<Dish>)
 
     @Transaction
+    open fun updateRecommendedDishes(ids: List<String>) {
+        resetRecommended()
+        setRecommended(ids)
+    }
+
+    @Transaction
     open fun clearTables() {
         deleteDishes()
     }
 
     @Query("DELETE FROM dish")
     protected abstract fun deleteDishes()
+
+    @Query("UPDATE dish SET recommended = 0")
+    protected abstract fun resetRecommended()
+
+    @Query("UPDATE dish SET recommended = 1 WHERE id IN (:ids)")
+    protected abstract fun setRecommended(ids: List<String>)
 
     open fun hasSaleDishes(): Boolean {
         return getFirstSaleDish() != null

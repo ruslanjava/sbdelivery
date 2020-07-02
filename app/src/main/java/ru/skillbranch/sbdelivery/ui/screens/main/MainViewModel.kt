@@ -1,9 +1,14 @@
 package ru.skillbranch.sbdelivery.ui.screens.main
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
+import ru.skillbranch.sbdelivery.http.HttpClient
 import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.DishDao
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
@@ -16,6 +21,8 @@ internal class MainViewModel : ViewModel() {
     }
     private val dishDao: DishDao by lazy { database.dishDao() }
 
+    private val recommendedDishes: MutableLiveData<List<Dish>> = MutableLiveData()
+
     private val addedDishes: SingleLiveData<Dish> = SingleLiveData()
     private val clickedDishes: SingleLiveData<Dish> = SingleLiveData()
     private val menuItemClicks: SingleLiveData<MainMenuItem> = SingleLiveData()
@@ -27,7 +34,18 @@ internal class MainViewModel : ViewModel() {
 
     @ExperimentalCoroutinesApi
     fun recommendedDishes(): LiveData<List<Dish>> {
-        return dishDao.getRecommendedDishes()
+        viewModelScope.launch(Dispatchers.IO) {
+            // сначала отдаем версию из кеша
+            val oldList = dishDao.getRecommendedDishes()
+            recommendedDishes.postValue(oldList)
+
+            // затем отдаем обновленный вариант
+            val ids = HttpClient.getRecommendedIds()
+            dishDao.updateRecommendedDishes(ids)
+            val newList = dishDao.getRecommendedDishes()
+            recommendedDishes.postValue(newList)
+        }
+        return recommendedDishes
     }
 
     @ExperimentalCoroutinesApi
