@@ -43,6 +43,9 @@ abstract class DishDao {
     @Query("SELECT * FROM dish WHERE id = :id LIMIT 1")
     abstract fun findDish(id: String): Dish?
 
+    @Query("SELECT * FROM dish WHERE id = :id LIMIT 1")
+    abstract fun findDishLive(id: String): LiveData<Dish>
+
     @Query("SELECT * FROM dish WHERE favorite = 1")
     abstract fun getFavoriteDishes(): List<Dish>
 
