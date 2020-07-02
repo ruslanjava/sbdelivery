@@ -177,6 +177,7 @@ class MainFragment : Fragment() {
     private fun createDishAdapter(): DishListAdapter {
         return DishListAdapter(
             { dish -> viewModel.handleAddClick(dish) },
+            { dish -> viewModel.handleFavoriteClick(dish) },
             { dish -> viewModel.handleDishClick(dish) }
         )
     }

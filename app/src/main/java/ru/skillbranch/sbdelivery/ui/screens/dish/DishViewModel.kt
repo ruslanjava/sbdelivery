@@ -9,8 +9,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
 import ru.skillbranch.sbdelivery.http.HttpClient
-import ru.skillbranch.sbdelivery.http.SbDeliveryService
-import ru.skillbranch.sbdelivery.http.SbDeliveryServiceFactory
 import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
 import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.DishDao
@@ -23,13 +21,14 @@ class DishViewModel : ViewModel() {
     }
     private val dishDao: DishDao by lazy { database.dishDao() }
 
+    private val dishes: MutableLiveData<Dish> = MutableLiveData()
+
     fun dish(dishId: String): LiveData<Dish> {
-        val result = MutableLiveData<Dish>()
         viewModelScope.launch(Dispatchers.IO) {
             val dish = dishDao.findDish(dishId)
-            result.postValue(dish)
+            dishes.postValue(dish)
         }
-        return result
+        return dishes
     }
 
     @ExperimentalCoroutinesApi
@@ -40,6 +39,14 @@ class DishViewModel : ViewModel() {
             result.postValue(reviews)
         }
         return result
+    }
+
+    fun handleFavoriteClick(dishId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dishDao.changeFavoriteState(dishId)
+            val dish = dishDao.findDish(dishId)
+            dishes.postValue(dish)
+        }
     }
 
 }
