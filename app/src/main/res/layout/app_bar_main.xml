@@ -9,13 +9,11 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:expandedTitleGravity="top"
             android:background="?attr/windowBackground"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
@@ -68,8 +66,8 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:background="?android:attr/colorPrimaryDark"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimaryDark"
                 app:layout_collapseMode="pin"
                 app:theme="@style/AppToolbar">
 
@@ -87,15 +85,15 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.0">
-
-            <include layout="@layout/fragment_main_content" />
-
-        </FrameLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <include layout="@layout/fragment_main_content" />
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

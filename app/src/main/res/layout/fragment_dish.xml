@@ -11,13 +11,12 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="320dp"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:expandedTitleGravity="top"
+            android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,192 +97,190 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/app_bar_layout">
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <LinearLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/app_bar_layout"
+        app:layout_anchorGravity="bottom|start"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="?attr/windowBackground"
+                android:paddingBottom="@dimen/margin_medium">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dish_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/windowBackground"
-                    android:paddingBottom="@dimen/margin_medium">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/dish_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:fontFamily="sans-serif-medium"
-                        android:gravity="start|center_vertical"
-                        android:textColor="?attr/textColorPrimary"
-                        android:textSize="@dimen/text_size_dish_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Пицца Маргарита" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/dish_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:fontFamily="sans-serif"
-                        android:gravity="start|center_vertical"
-                        android:textColor="?attr/textColorSecondary"
-                        android:textSize="@dimen/text_size_dish_description"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/dish_title"
-                        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat" />
-
-                    <ru.skillbranch.sbdelivery.ui.custom.NumberPickerView
-                        android:id="@+id/dish_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="@dimen/margin_huge"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/dish_description" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/dish_old_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:background="@drawable/cross_line"
-                        android:gravity="center_vertical"
-                        android:textColor="?attr/textColorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        app:layout_constraintBottom_toBottomOf="@id/dish_count"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/dish_count"
-                        tools:text="780 ₽" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/dish_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:fontFamily="sans-serif-medium"
-                        android:gravity="center_vertical"
-                        android:textColor="?attr/colorAccent"
-                        android:textSize="@dimen/text_size_large"
-                        app:layout_constraintBottom_toBottomOf="@id/dish_old_price"
-                        app:layout_constraintStart_toEndOf="@id/dish_old_price"
-                        app:layout_constraintTop_toTopOf="@id/dish_old_price"
-                        tools:text="680 ₽" />
-
-                    <Button
-                        android:id="@+id/dish_add_button"
-                        style="@style/Button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:text="@string/dish_add_to_cart"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/dish_count" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/dish_reviews_area"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:visibility="invisible"
-                    tools:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="start|center_vertical"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/text_size_dish_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dish_add_button">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Пицца Маргарита" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/dish_reviews_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_medium"
-                        android:text="@string/dish_reviews_header"
-                        android:textColor="?attr/textColorPrimary"
-                        android:textSize="@dimen/text_size_medium"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dish_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:fontFamily="sans-serif"
+                    android:gravity="start|center_vertical"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="@dimen/text_size_dish_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dish_title"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/dish_reviews_star"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_medium"
-                        android:src="@drawable/ic_star"
-                        android:tint="?attr/colorAccent"
-                        app:layout_constraintStart_toEndOf="@id/dish_reviews_label"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <ru.skillbranch.sbdelivery.ui.custom.NumberPickerView
+                    android:id="@+id/dish_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="@dimen/margin_huge"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dish_description" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/dish_reviews_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_medium"
-                        android:textColor="?attr/colorAccent"
-                        android:textSize="@dimen/text_size_small"
-                        app:layout_constraintBottom_toBottomOf="@id/dish_reviews_label"
-                        app:layout_constraintStart_toEndOf="@id/dish_reviews_star"
-                        app:layout_constraintTop_toTopOf="@id/dish_reviews_label"
-                        tools:text="4.8/5" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dish_old_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:background="@drawable/cross_line"
+                    android:gravity="center_vertical"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/text_size_large"
+                    app:layout_constraintBottom_toBottomOf="@id/dish_count"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/dish_count"
+                    tools:text="780 ₽" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_large"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:background="@drawable/background_comment"
-                        android:paddingStart="@dimen/margin_small"
-                        android:paddingTop="@dimen/margin_small"
-                        android:paddingEnd="@dimen/margin_small"
-                        android:paddingBottom="@dimen/margin_small"
-                        android:text="@string/dish_add_comment"
-                        android:textColor="?attr/textColorPrimary"
-                        app:layout_constraintBottom_toBottomOf="@id/dish_reviews_rating"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/dish_reviews_rating" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dish_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_vertical"
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="@dimen/text_size_large"
+                    app:layout_constraintBottom_toBottomOf="@id/dish_old_price"
+                    app:layout_constraintStart_toEndOf="@id/dish_old_price"
+                    app:layout_constraintTop_toTopOf="@id/dish_old_price"
+                    tools:text="680 ₽" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/dish_reviews_list"
+                <Button
+                    android:id="@+id/dish_add_button"
+                    style="@style/Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_medium"
-                    android:visibility="invisible"
-                    tools:visibility="visible"
-                    tools:listitem="@layout/view_list_item_comment" />
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:text="@string/dish_add_to_cart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dish_count" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dish_reviews_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_small"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dish_add_button">
 
-    </com.google.android.material.appbar.AppBarLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dish_reviews_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:text="@string/dish_reviews_header"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/dish_reviews_star"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:src="@drawable/ic_star"
+                    android:tint="?attr/colorAccent"
+                    app:layout_constraintStart_toEndOf="@id/dish_reviews_label"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dish_reviews_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="@dimen/text_size_small"
+                    app:layout_constraintBottom_toBottomOf="@id/dish_reviews_label"
+                    app:layout_constraintStart_toEndOf="@id/dish_reviews_star"
+                    app:layout_constraintTop_toTopOf="@id/dish_reviews_label"
+                    tools:text="4.8/5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:background="@drawable/background_comment"
+                    android:paddingStart="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@string/dish_add_comment"
+                    android:textColor="?attr/textColorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/dish_reviews_rating"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/dish_reviews_rating" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dish_reviews_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_medium"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                tools:listitem="@layout/view_list_item_comment" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
