@@ -49,7 +49,6 @@ class FavoritesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        super.onActivityCreated(savedInstanceState)
         viewModel.favoriteDishes().observe(viewLifecycleOwner, Observer { dishes ->
             adapter.updateItems(dishes)
         })

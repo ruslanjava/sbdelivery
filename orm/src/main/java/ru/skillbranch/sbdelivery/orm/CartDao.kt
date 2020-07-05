@@ -1,5 +1,6 @@
 package ru.skillbranch.sbdelivery.orm
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import ru.skillbranch.sbdelivery.orm.entities.cart.Cart
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartItem
@@ -10,7 +11,7 @@ abstract class CartDao {
 
     @Transaction
     @Query("SELECT * FROM cart LIMIT 1")
-    abstract fun getCart(): CartWithItems?
+    abstract fun getCart(): LiveData<CartWithItems>
 
     @Transaction
     open fun insert(cart: CartWithItems): Long {
