@@ -3,10 +3,12 @@ package ru.skillbranch.sbdelivery.ui.screens.favorites
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.databinding.FragmentFavoritesBinding
@@ -36,6 +38,12 @@ class FavoritesFragment : Fragment() {
         )
         rvFavoritesList.adapter = adapter
 
+        val customToolbar = binding.toolbar
+        val activity = activity as RootActivity
+        activity.setSupportActionBar(customToolbar)
+
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -53,6 +61,14 @@ class FavoritesFragment : Fragment() {
                 navController.navigate(R.id.action_nav_main_to_nav_dish, DishFragmentArgs(it.id).toBundle())
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            findNavController().navigateUp()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

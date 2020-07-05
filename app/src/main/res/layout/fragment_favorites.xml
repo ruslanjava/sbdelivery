@@ -22,6 +22,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimaryDark"
             app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_baseline_menu_24"
+            app:contentInsetStartWithNavigation="0dp"
             app:theme="@style/AppToolbar">
 
             <androidx.appcompat.widget.AppCompatTextView

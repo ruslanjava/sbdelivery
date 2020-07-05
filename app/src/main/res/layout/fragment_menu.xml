@@ -8,12 +8,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.screens.menu.MenuFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimaryDark"
+            app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_baseline_menu_24"
+            app:contentInsetStartWithNavigation="0dp"
+            app:theme="@style/AppToolbar">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dish_fragment_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="start|center_vertical"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="@dimen/text_size_medium"
+                android:text="@string/main_menu"
+                android:maxLines="1"
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="4sp"
+                app:autoSizeStepGranularity="0.5sp"
+                app:autoSizeTextType="uniform" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ru.skillbranch.sbdelivery.ui.screens.menu.MenuRecyclerView
         android:id="@+id/rv_menu_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/margin_medium"
