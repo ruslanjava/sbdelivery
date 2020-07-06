@@ -9,6 +9,6 @@ class CartWithItems: Cart() {
         parentColumn = "id",
         entityColumn = "cart_id"
     )
-    var items: List<CartItem> = listOf()
+    var items: List<CartItemFull> = listOf()
 
 }

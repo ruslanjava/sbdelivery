@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.sbdelivery.R
-import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
-import ru.skillbranch.sbdelivery.orm.entities.cart.CartItem
+import ru.skillbranch.sbdelivery.orm.entities.cart.CartItemFull
+import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 
-class CartListAdapter(): RecyclerView.Adapter<CartItemViewHolder>() {
+class CartListAdapter(private val amountListener: (Dish, Int) -> Unit): RecyclerView.Adapter<CartItemViewHolder>() {
 
-    var items: List<CartItem> = listOf()
+    var items: List<CartItemFull> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.view_list_item_cart, parent, false)
-        return CartItemViewHolder(view)
+        return CartItemViewHolder(view, amountListener)
     }
 
     override fun onBindViewHolder(holder: CartItemViewHolder, position: Int) {
@@ -27,7 +27,7 @@ class CartListAdapter(): RecyclerView.Adapter<CartItemViewHolder>() {
         return items.size
     }
 
-    fun updateItems(items: List<CartItem>) {
+    fun updateItems(items: List<CartItemFull>) {
         val callback = CartItemDiffUtilCallback(items, items)
         val result = DiffUtil.calculateDiff(callback)
         this.items = items
@@ -35,7 +35,7 @@ class CartListAdapter(): RecyclerView.Adapter<CartItemViewHolder>() {
     }
 
     internal class CartItemDiffUtilCallback(
-        private val oldItems: List<ReviewRes>, private val newItems: List<ReviewRes>
+        private val oldItems: List<CartItemFull>, private val newItems: List<CartItemFull>
     ): DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {
@@ -49,16 +49,16 @@ class CartListAdapter(): RecyclerView.Adapter<CartItemViewHolder>() {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldItems[oldItemPosition]
             val newItem = newItems[newItemPosition]
-            return oldItem.id == newItem.id
+            return oldItem.dish.id == newItem.dish.id
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldItems[oldItemPosition]
             val newItem = newItems[newItemPosition]
-            return oldItem.id == newItem.id &&
-                    oldItem.author.equals(newItem.author) &&
-                    oldItem.text.equals(newItem.text) &&
-                    oldItem.updatedAt == newItem.updatedAt
+            return oldItem.dish.id == newItem.dish.id &&
+                    oldItem.amount.equals(newItem.amount) &&
+                    oldItem.dish.name.equals(newItem.dish.name) &&
+                    oldItem.dish.price == newItem.dish.price
         }
 
     }
