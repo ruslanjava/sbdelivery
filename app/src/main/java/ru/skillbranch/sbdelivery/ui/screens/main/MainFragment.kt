@@ -98,6 +98,7 @@ class MainFragment : Fragment() {
                 when (item) {
                     MENU -> navController.navigate(R.id.action_nav_main_to_nav_menu)
                     FAVORITES -> navController.navigate(R.id.action_nav_main_to_nav_favorites)
+                    CART -> navController.navigate(R.id.action_nav_main_to_nav_cart)
                     ABOUT -> navController.navigate(R.id.action_nav_main_to_nav_about)
                     else -> {} /* */
                 }

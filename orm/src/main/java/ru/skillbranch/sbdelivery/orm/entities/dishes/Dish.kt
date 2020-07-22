@@ -11,6 +11,7 @@ open class Dish {
     // ID блюда
     @PrimaryKey
     @NonNull
+    @ColumnInfo(name = "id")
     lateinit var id: String
 
     // Название блюда
@@ -23,6 +24,7 @@ open class Dish {
     var image: String? = null
 
     // Старая цена, опционально
+    @ColumnInfo(name = "old_price")
     var oldPrice: Int? = null
 
     // Текущая цена
@@ -32,6 +34,7 @@ open class Dish {
     var rating: Float = 0f
 
     // Количество комментариев
+    @ColumnInfo(name = "comments_count")
     var commentsCount: Int? = 0
 
     // Количество лайков

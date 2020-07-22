@@ -5,11 +5,11 @@ import java.util.concurrent.Executor
 object Retrofit2Platform {
 
     fun defaultCallAdapterFactories(executor: Executor?): List<CallAdapter.Factory> {
-        var executor: Executor? = executor
-        if (executor == null) {
-            executor = defaultCallbackExecutor()
+        var mExecutor: Executor? = executor
+        if (mExecutor == null) {
+            mExecutor = defaultCallbackExecutor()
         }
-        return Platform.get().defaultCallAdapterFactories(executor)
+        return Platform.get().defaultCallAdapterFactories(mExecutor)
     }
 
     fun defaultCallbackExecutor(): Executor? {

@@ -67,6 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cart_promo_button"
         app:layout_constraintBottom_toTopOf="@id/cart_promo_description"
+        android:visibility="invisible"
         android:textColorHint="?attr/textColorSecondary"
         android:backgroundTint="?attr/colorPrimaryDark"
         android:textSize="@dimen/text_size_small"
@@ -84,6 +85,7 @@
         android:background="@drawable/background_comment"
         android:paddingStart="@dimen/margin_medium"
         android:paddingEnd="@dimen/margin_medium"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/cart_promo_field"
         app:layout_constraintBottom_toBottomOf="@id/cart_promo_field"
@@ -101,6 +103,7 @@
         android:textColor="?attr/colorAccent"
         android:textSize="@dimen/text_size_medium"
         tools:text="Скидка 100 рублей!"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/cart_total" />

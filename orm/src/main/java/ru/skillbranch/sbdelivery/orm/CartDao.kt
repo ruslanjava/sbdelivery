@@ -7,10 +7,10 @@ import ru.skillbranch.sbdelivery.orm.entities.cart.CartItemFull
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartWithItems
 
 @Dao
-abstract class CartDao {
+interface CartDao {
 
     @Transaction
-    open fun getFullCart(): CartWithItems? {
+    fun getFullCart(): CartWithItems? {
         val cart = selectCart() ?: return null
         val items = selectCartItems()
         cart.items = items
@@ -26,40 +26,38 @@ abstract class CartDao {
     }
 
     @Transaction
-    open fun insert(cart: Cart): Long {
+    fun insert(cart: Cart): Long {
         return insertCart(cart)
     }
 
     @Transaction
-    open fun clearTables() {
+    fun clearTables() {
         deleteCartItems()
         deleteCart()
     }
 
-    @Transaction
     @Query("SELECT * FROM cart LIMIT 1")
-    abstract fun selectCart(): CartWithItems?
+    fun selectCart(): CartWithItems?
 
-    @Transaction
-    @Query("SELECT * FROM cart_item")
-    abstract fun selectCartItems(): List<CartItemFull>
+    @Query("SELECT * FROM CartItemFull")
+    fun selectCartItems(): List<CartItemFull>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    protected abstract fun insertCart(cart: Cart): Long
+    fun insertCart(cart: Cart): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    protected abstract fun insertCartItem(item: CartItem): Long
+    fun insertCartItem(item: CartItem): Long
 
     @Update
-    protected abstract fun updateCart(cart: Cart)
+    fun updateCart(cart: Cart)
 
     @Update
-    protected abstract fun updateCartItem(item: CartItem): Long
+    fun updateCartItem(item: CartItem)
 
     @Query("DELETE FROM cart")
-    protected abstract fun deleteCart()
+    fun deleteCart()
 
     @Query("DELETE FROM cart_item")
-    protected abstract fun deleteCartItems()
+    fun deleteCartItems()
 
 }

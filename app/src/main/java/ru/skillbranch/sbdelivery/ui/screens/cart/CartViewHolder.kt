@@ -44,7 +44,7 @@ class CartItemViewHolder(
 
         tvNameView.text = item.dish.name
         tvNumberView.setValue(item.amount)
-        tvFullPriceView.text = item.fullPrice.toString()
+        tvFullPriceView.text = item.getFullPrice().toString()
 
         itemValueListener.dish = item.dish
     }

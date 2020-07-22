@@ -5,19 +5,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.sbdelivery.databinding.FragmentCartBinding
+import ru.skillbranch.sbdelivery.orm.entities.cart.CartItemFull
 
 class CartFragment : Fragment() {
 
     private val viewModel: CartItemViewModel by viewModels()
 
-    private lateinit var rvCartList: RecyclerView
+    private lateinit var cartList: RecyclerView
     private lateinit var adapter: CartListAdapter
-    private lateinit var tvTotal: AppCompatTextView
+
+    private lateinit var promoField: EditText
+    private lateinit var promoButton: Button
+    private lateinit var promoText: AppCompatTextView
+
+    private lateinit var totalLabel: AppCompatTextView
+    private lateinit var totalValue: AppCompatTextView
+    private lateinit var orderButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,12 +35,19 @@ class CartFragment : Fragment() {
     ): View? {
         val binding = FragmentCartBinding.inflate(inflater)
 
-        rvCartList = binding.rvCartList
+        cartList = binding.rvCartList
         adapter = CartListAdapter {
             dish, amount -> viewModel.handleDishAmountChange(dish, amount)
         }
-        rvCartList.adapter = adapter
-        tvTotal = binding.cartTotalValue
+        cartList.adapter = adapter
+
+        promoField = binding.cartPromoField
+        promoButton = binding.cartPromoButton
+        promoText = binding.cartPromoDescription
+
+        totalLabel = binding.cartTotal
+        totalValue = binding.cartTotalValue
+        orderButton = binding.cartOrderButton
 
         return binding.root
     }
@@ -39,12 +56,32 @@ class CartFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.cart().observe(viewLifecycleOwner, Observer { cart ->
-            adapter.updateItems(cart.items)
+            if (cart != null) {
+                adapter.updateItems(cart.items)
 
-            val total = cart.items
-                .map { it -> it.fullPrice }
-                .sum()
-            tvTotal.text = total.toString()
+                val total = cart.items
+                    .map { item -> item.getFullPrice() }
+                    .sum()
+
+                promoField.visibility = View.VISIBLE
+                promoButton.visibility = View.VISIBLE
+
+                totalLabel.visibility = View.VISIBLE
+                totalValue.visibility = View.VISIBLE
+                totalValue.text = total.toString()
+
+                orderButton.visibility = View.VISIBLE
+            } else {
+                adapter.updateItems(listOf())
+
+                promoField.visibility = View.INVISIBLE
+                promoButton.visibility = View.INVISIBLE
+
+                totalLabel.visibility = View.INVISIBLE
+                totalValue.visibility = View.INVISIBLE
+
+                orderButton.visibility = View.INVISIBLE
+            }
         })
     }
 

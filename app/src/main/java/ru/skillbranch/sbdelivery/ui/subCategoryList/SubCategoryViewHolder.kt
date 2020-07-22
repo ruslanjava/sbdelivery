@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.screens.menu
+package ru.skillbranch.sbdelivery.ui.subCategoryList
 
 import android.content.Context
 import android.graphics.drawable.PictureDrawable
@@ -13,7 +13,7 @@ import ru.skillbranch.sbdelivery.databinding.ViewListItemCategoryBinding
 import ru.skillbranch.sbdelivery.glide.SvgSoftwareLayerSetter
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
 
-class CategoryViewHolder(
+class SubCategoryViewHolder(
     itemView: View, clickListener: (Category) -> Unit
 ) : RecyclerView.ViewHolder(itemView) {
 

@@ -19,6 +19,7 @@ import ru.skillbranch.sbdelivery.databinding.FragmentDishBinding
 import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
+import java.text.DecimalFormat
 
 class DishFragment : Fragment() {
 
@@ -122,7 +123,7 @@ class DishFragment : Fragment() {
 
         if (dish.rating > 0) {
             rvDishReviewsArea.visibility = View.VISIBLE
-            tvDishReviewsRating.text = String.format("%0.1f/5", dish.rating)
+            tvDishReviewsRating.text = DecimalFormat("#.#").format(dish.rating)
         } else {
             rvDishReviewsArea.visibility = View.INVISIBLE
         }

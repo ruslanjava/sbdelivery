@@ -22,10 +22,10 @@ abstract class DishDao {
     @Query("SELECT * FROM dish")
     abstract fun getDishes(): List<Dish>
 
-    @Query("SELECT * FROM dish WHERE oldPrice > 0")
+    @Query("SELECT * FROM dish WHERE old_price > 0")
     abstract fun getSaleDishes(): LiveData<List<Dish>>
 
-    @Query("SELECT * FROM dish WHERE oldPrice > 0 LIMIT 1")
+    @Query("SELECT * FROM dish WHERE old_price > 0 LIMIT 1")
     abstract fun getFirstSaleDish(): Dish?
 
     @Query("SELECT * FROM dish WHERE recommended = 1")

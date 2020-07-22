@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
 import ru.skillbranch.sbdelivery.orm.CartDao
@@ -21,7 +22,7 @@ class CartItemViewModel : ViewModel() {
 
     private val cartLiveData: MutableLiveData<CartWithItems> = MutableLiveData()
 
-    fun cart(): LiveData<CartWithItems> {
+    fun cart(): LiveData<CartWithItems?> {
         viewModelScope.launch(Dispatchers.IO) {
             val cart = cartDao.getFullCart()
             cartLiveData.postValue(cart)
