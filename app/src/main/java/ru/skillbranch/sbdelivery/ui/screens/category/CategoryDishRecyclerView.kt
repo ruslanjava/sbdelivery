@@ -1,11 +1,11 @@
-package ru.skillbranch.sbdelivery.ui.subCategoryList
+package ru.skillbranch.sbdelivery.ui.screens.category
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class SubCategoryRecyclerView(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
+class CategoryDishRecyclerView(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
     init {
         layoutManager = GridLayoutManager(context, 2)

@@ -50,6 +50,9 @@ abstract class DishDao {
     abstract fun getFavoriteDishes(): LiveData<List<Dish>>
 
     @Query("SELECT * FROM dish WHERE category_id = :categoryId")
+    abstract fun getCategoryDishes(categoryId: String): LiveData<List<Dish>>
+
+    @Query("SELECT * FROM dish WHERE category_id = :categoryId")
     abstract fun getDishes(categoryId: String): List<Dish>
 
     @Insert

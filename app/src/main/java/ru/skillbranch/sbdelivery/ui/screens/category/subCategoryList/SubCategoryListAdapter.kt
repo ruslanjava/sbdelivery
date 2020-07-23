@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.subCategoryList
+package ru.skillbranch.sbdelivery.ui.screens.category.subCategoryList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ class SubCategoryListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubCategoryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.view_list_item_category, parent, false)
+        val view = layoutInflater.inflate(R.layout.view_list_item_sub_category, parent, false)
         return SubCategoryViewHolder(view, clickListener)
     }
 

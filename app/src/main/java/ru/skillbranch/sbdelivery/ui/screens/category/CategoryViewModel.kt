@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.screens.favorites
+package ru.skillbranch.sbdelivery.ui.screens.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -6,27 +6,34 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
+import ru.skillbranch.sbdelivery.orm.CategoryDao
 import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.DishDao
+import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 import ru.skillbranch.sbdelivery.repository.SingleLiveData
 
-class FavoritesViewModel : ViewModel() {
+class CategoryViewModel : ViewModel() {
 
     private val database: DeliveryDatabase by lazy {
         DeliveryDatabase.getInstance(SbDeliveryApplication.context)
     }
     private val dishDao: DishDao by lazy { database.dishDao() }
+    private val categoryDao: CategoryDao by lazy { database.categoryDao() }
 
     private val addedDishes: SingleLiveData<Dish> = SingleLiveData()
     private val clickedDishes: SingleLiveData<Dish> = SingleLiveData()
 
-    fun favoriteDishes(): LiveData<List<Dish>> {
-        return dishDao.getFavoriteDishes()
+    fun category(categoryId: String): LiveData<Category> {
+        return categoryDao.getCategory(categoryId)
     }
 
-    fun addedDishes(): LiveData<Dish?> {
-        return addedDishes
+    fun subCategories(categoryId: String): LiveData<List<Category>> {
+        return categoryDao.getChildCategories(categoryId)
+    }
+
+    fun categoryDishes(categoryId: String): LiveData<List<Dish>> {
+        return dishDao.getCategoryDishes(categoryId)
     }
 
     fun clickedDishes(): LiveData<Dish?> {

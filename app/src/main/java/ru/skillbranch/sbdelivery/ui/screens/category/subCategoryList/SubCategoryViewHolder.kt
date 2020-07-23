@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.subCategoryList
+package ru.skillbranch.sbdelivery.ui.screens.category.subCategoryList
 
 import android.content.Context
 import android.graphics.drawable.PictureDrawable
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import ru.skillbranch.sbdelivery.R
-import ru.skillbranch.sbdelivery.databinding.ViewListItemCategoryBinding
+import ru.skillbranch.sbdelivery.databinding.ViewListItemSubCategoryBinding
 import ru.skillbranch.sbdelivery.glide.SvgSoftwareLayerSetter
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
 
@@ -27,7 +27,7 @@ class SubCategoryViewHolder(
     private val requestBuilder: RequestBuilder<PictureDrawable>
 
     init {
-        val binding = ViewListItemCategoryBinding.bind(itemView)
+        val binding = ViewListItemSubCategoryBinding.bind(itemView)
         itemView.setOnClickListener(itemClickListener)
 
         ivIconView = binding.categoryItemIcon

@@ -57,7 +57,7 @@ class FavoritesFragment : Fragment() {
             dish?.let {
                 val activity = activity as RootActivity
                 val navController = activity.navController
-                navController.navigate(R.id.action_nav_main_to_nav_dish, DishFragmentArgs(it.id).toBundle())
+                navController.navigate(R.id.action_nav_favorites_to_nav_dish, DishFragmentArgs(it.id).toBundle())
             }
         })
     }
