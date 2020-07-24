@@ -121,13 +121,18 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-                drawerLayout.closeDrawer(Gravity.LEFT)
-                return true
-            } else {
-                findNavController().navigateUp()
-                return true
+        when (item.itemId) {
+            android.R.id.home -> {
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    drawerLayout.closeDrawer(Gravity.LEFT)
+                    return true
+                } else {
+                    findNavController().navigateUp()
+                    return true
+                }
+            }
+            R.id.nav_cart -> {
+                findNavController().navigate(R.id.action_nav_main_to_nav_cart)
             }
         }
         return super.onOptionsItemSelected(item)
