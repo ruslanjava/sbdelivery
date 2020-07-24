@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayout
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.databinding.FragmentCategoryBinding
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
@@ -24,9 +25,9 @@ class CategoryFragment : Fragment() {
     private val viewModel: CategoryViewModel by viewModels()
 
     private lateinit var titleView: AppCompatTextView
+    private lateinit var tabListener: TabClickListener
 
-    private lateinit var subCategoryList: RecyclerView
-    private lateinit var subCategoryAdapter: SubCategoryListAdapter
+    private lateinit var subCategoryList: TabLayout
 
     private lateinit var dishList: RecyclerView
     private lateinit var dishAdapter: DishListAdapter
@@ -39,14 +40,9 @@ class CategoryFragment : Fragment() {
 
         titleView = binding.dishFragmentTitle
 
-        subCategoryList = binding.rvSubCategoryList
-        subCategoryAdapter = SubCategoryListAdapter { subCategory ->
-            val activity = activity as RootActivity
-            val navController = activity.navController
-            val arguments = CategoryFragmentArgs(subCategory.id)
-            navController.navigate(R.id.action_nav_category_self, arguments.toBundle())
-        }
-        subCategoryList.adapter = subCategoryAdapter
+        subCategoryList = binding.tlSubCategoryList
+        tabListener = TabClickListener()
+        subCategoryList.addOnTabSelectedListener(tabListener)
 
         dishList = binding.rvDishList
         dishAdapter = DishListAdapter(
@@ -80,8 +76,17 @@ class CategoryFragment : Fragment() {
             }
         })
 
-        viewModel.subCategories(categoryId).observe(viewLifecycleOwner, Observer {  subCategories ->
-            subCategoryAdapter.updateItems(subCategories)
+        viewModel.subCategories(categoryId).observe(viewLifecycleOwner, Observer { subCategories ->
+            if (subCategories.isNotEmpty()) {
+                subCategoryList.visibility = View.VISIBLE
+                subCategories.forEach { subCategory ->
+                    val tabItem = subCategoryList.newTab().setText(subCategory.name)
+                    subCategoryList.addTab(tabItem)
+                }
+                tabListener.subCategories = subCategories
+            } else {
+                subCategoryList.visibility = View.GONE
+            }
         })
 
         viewModel.categoryDishes(categoryId).observe(viewLifecycleOwner, Observer { dishes ->
@@ -104,6 +109,27 @@ class CategoryFragment : Fragment() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    inner class TabClickListener: TabLayout.OnTabSelectedListener {
+
+        var subCategories: List<Category>? = null
+
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            if (tab != null && subCategories != null) {
+                val subCategory = subCategories!![tab.position]
+                viewModel.categoryDishes(subCategory.id).observe(viewLifecycleOwner, Observer { dishes ->
+                    dishAdapter.updateItems(dishes)
+                })
+            }
+        }
+
     }
 
 }

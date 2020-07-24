@@ -35,7 +35,7 @@
                 android:gravity="start|center_vertical"
                 android:textColor="?attr/textColorPrimary"
                 android:textSize="@dimen/text_size_medium"
-                android:text="@string/dish_sale"
+                tools:text="Суши и роллы"
                 android:maxLines="1"
                 android:layout_marginEnd="@dimen/margin_medium"
                 app:autoSizeMaxTextSize="18sp"
@@ -47,28 +47,27 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ru.skillbranch.sbdelivery.ui.screens.category.subCategoryList.SubCategoryRecyclerView
-        android:id="@+id/rv_sub_category_list"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tl_sub_category_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimaryDark"
+        app:tabSelectedTextColor="@color/color_accent"
+        app:tabTextColor="@color/text_color_secondary"
+        app:tabTextAppearance="@style/SubCategoryTabLayout"
         app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_medium"
-        tools:listitem="@layout/view_list_item_sub_category"
-        tools:itemCount="2" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ru.skillbranch.sbdelivery.ui.screens.category.CategoryDishRecyclerView
         android:id="@+id/rv_dish_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/rv_sub_category_list"
+        app:layout_constraintTop_toBottomOf="@id/tl_sub_category_list"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
         android:paddingBottom="@dimen/margin_medium"

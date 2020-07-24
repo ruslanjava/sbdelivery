@@ -49,4 +49,8 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="SubCategoryTabLayout" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
 </resources>
