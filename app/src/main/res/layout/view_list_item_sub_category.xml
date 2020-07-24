@@ -54,7 +54,7 @@
                 android:textColor="?attr/textColorPrimary"
                 android:textSize="@dimen/text_size_medium"
                 android:fontFamily="sans-serif-medium"
-                android:maxLines="2"
+                android:maxLines="1"
                 app:autoSizeMinTextSize="16sp"
                 app:autoSizeMaxTextSize="24sp"
                 app:autoSizeStepGranularity="1sp"

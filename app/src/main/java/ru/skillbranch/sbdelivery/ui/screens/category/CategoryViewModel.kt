@@ -1,6 +1,7 @@
 package ru.skillbranch.sbdelivery.ui.screens.category
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -21,11 +22,22 @@ class CategoryViewModel : ViewModel() {
     private val dishDao: DishDao by lazy { database.dishDao() }
     private val categoryDao: CategoryDao by lazy { database.categoryDao() }
 
+    private val categoryData: SingleLiveData<Category> = SingleLiveData()
+
     private val addedDishes: SingleLiveData<Dish> = SingleLiveData()
     private val clickedDishes: SingleLiveData<Dish> = SingleLiveData()
 
-    fun category(categoryId: String): LiveData<Category> {
-        return categoryDao.getCategory(categoryId)
+    fun category(categoryId: String): SingleLiveData<Category> {
+        viewModelScope.launch(Dispatchers.IO) {
+            val category: Category
+            if (categoryId == Category.SALES.id) {
+                category = Category.SALES
+            } else {
+                category = categoryDao.getCategory(categoryId)
+            }
+            categoryData.postValue(category)
+        }
+        return categoryData
     }
 
     fun subCategories(categoryId: String): LiveData<List<Category>> {
@@ -33,7 +45,13 @@ class CategoryViewModel : ViewModel() {
     }
 
     fun categoryDishes(categoryId: String): LiveData<List<Dish>> {
-        return dishDao.getCategoryDishes(categoryId)
+        val dishes : MediatorLiveData<List<Dish>> = MediatorLiveData()
+        if (categoryId == Category.SALES.id) {
+            dishes.addSource(dishDao.getSaleDishes()) { dishes.postValue(it) }
+        } else {
+            dishes.addSource(dishDao.getCategoryDishes(categoryId)) { dishes.postValue(it) }
+        }
+        return dishes
     }
 
     fun clickedDishes(): LiveData<Dish?> {

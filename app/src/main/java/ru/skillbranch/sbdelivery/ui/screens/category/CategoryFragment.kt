@@ -2,15 +2,18 @@ package ru.skillbranch.sbdelivery.ui.screens.category
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.databinding.FragmentCategoryBinding
+import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
 import ru.skillbranch.sbdelivery.ui.dishList.DishListAdapter
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
 import ru.skillbranch.sbdelivery.ui.screens.dish.DishFragmentArgs
@@ -47,12 +50,18 @@ class CategoryFragment : Fragment() {
 
         dishList = binding.rvDishList
         dishAdapter = DishListAdapter(
-            R.layout.view_list_item_dish,
+            R.layout.view_list_item_dish_grid,
             { dish -> viewModel.handleAddClick(dish) },
             { dish -> viewModel.handleFavoriteClick(dish) },
             { dish -> viewModel.handleDishClick(dish) }
         )
         dishList.adapter = dishAdapter
+
+        val customToolbar = binding.toolbar
+        val activity = activity as RootActivity
+        activity.setSupportActionBar(customToolbar)
+
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -64,7 +73,11 @@ class CategoryFragment : Fragment() {
         val categoryId = categoryArgs.categoryId
 
         viewModel.category(categoryId).observe(viewLifecycleOwner, Observer { category ->
-            titleView.text = category.name
+            if (category == Category.SALES) {
+                titleView.text = getString(R.string.menu_sales)
+            } else {
+                titleView.text = category?.name
+            }
         })
 
         viewModel.subCategories(categoryId).observe(viewLifecycleOwner, Observer {  subCategories ->
@@ -83,6 +96,14 @@ class CategoryFragment : Fragment() {
                 navController.navigate(R.id.action_nav_category_to_nav_dish, dishArgs.toBundle())
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            findNavController().navigateUp()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

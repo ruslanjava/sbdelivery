@@ -36,13 +36,13 @@ class SubCategoryViewHolder(
         requestBuilder = Glide.with(itemView.context)
             .`as`(PictureDrawable::class.java)
             .placeholder(R.drawable.ic_more_28)
-            .error(R.drawable.ic_error_28)
+            .error(R.drawable.ic_menu)
             .listener(SvgSoftwareLayerSetter())
     }
 
     fun bind(item: Category) {
         if (item == Category.SALES) {
-            Glide.with(context)
+            requestBuilder
                 .load(R.drawable.ic_sale_28)
                 .into(ivIconView)
             tvNameView.text = context.getString(R.string.menu_sales)

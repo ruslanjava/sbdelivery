@@ -24,7 +24,7 @@ abstract class CategoryDao {
     abstract fun getRootCategories(): List<Category>
 
     @Query("SELECT * FROM category WHERE id = :categoryId")
-    abstract fun getCategory(categoryId: String): LiveData<Category>
+    abstract fun getCategory(categoryId: String): Category
 
     @Query("SELECT * FROM category WHERE parent_id = :parentId")
     abstract fun getChildCategories(parentId: String): LiveData<List<Category>>
