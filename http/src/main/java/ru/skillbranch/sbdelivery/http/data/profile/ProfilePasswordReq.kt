@@ -2,7 +2,7 @@ package ru.skillbranch.sbdelivery.http.data.profile
 
 import com.squareup.moshi.Json
 
-class ProfilePasswordRes {
+class ProfilePasswordReq {
 
     // Имя
     @Json(name = "oldPassword")

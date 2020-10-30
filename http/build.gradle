@@ -27,6 +27,11 @@ android {
 
 dependencies {
 
+    implementation project (':prefs')
+
+    // Lifecycle
+    implementation LifecycleLibs.liveDataCoreKtx
+
     // Kotlin
     implementation KotlinLibs.stdLib
     implementation KotlinLibs.coreKtx
@@ -45,6 +50,9 @@ dependencies {
     // Moshi
     implementation MoshiLibs.moshi
     implementation MoshiLibs.converterMoshi
+
+    // Timber
+    implementation LoggingLibs.timber
 
     // Test
     testImplementation TestLibs.junit

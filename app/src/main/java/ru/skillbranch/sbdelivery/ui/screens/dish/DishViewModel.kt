@@ -9,8 +9,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
 import ru.skillbranch.sbdelivery.http.HttpClient
-import ru.skillbranch.sbdelivery.http.SbDeliveryService
-import ru.skillbranch.sbdelivery.http.SbDeliveryServiceFactory
 import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
 import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.DishDao

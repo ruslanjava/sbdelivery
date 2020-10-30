@@ -9,12 +9,6 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import retrofit2.HttpException
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
-import ru.skillbranch.sbdelivery.http.auth.NotAuthorizedException
-import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -27,7 +21,7 @@ class SbDeliveryServiceInstrumentedTest {
     @Test
     fun testCategories() {
         val categories = runBlocking {
-            val service = SbDeliveryServiceFactory.instance
+            val service = NetworkManager.api
             service.categories(offset = 0, limit = 10)
         }
         assertThat(categories.size, CoreMatchers.`is`(10))
@@ -36,7 +30,7 @@ class SbDeliveryServiceInstrumentedTest {
     @Test
     fun testDishes() {
         val dishes = runBlocking {
-            val service = SbDeliveryServiceFactory.instance
+            val service = NetworkManager.api
             service.dishes(offset = 0, limit = 10)
         }
         assertThat(dishes.size, CoreMatchers.`is`(10))
@@ -46,7 +40,7 @@ class SbDeliveryServiceInstrumentedTest {
     fun testFavoriteDishes() {
         try {
             runBlocking {
-                val service = SbDeliveryServiceFactory.instance
+                val service = NetworkManager.api
                 service.favoriteDishes(offset = 0, limit = 10)
             }
             fail("Cannot be here")
@@ -59,7 +53,7 @@ class SbDeliveryServiceInstrumentedTest {
     fun testProfile() {
         try {
             runBlocking {
-                val service = SbDeliveryServiceFactory.instance
+                val service = NetworkManager.api
                 service.profile()
             }
             fail("Cannot be here")
@@ -71,7 +65,7 @@ class SbDeliveryServiceInstrumentedTest {
     @Test
     fun testReviews() {
         val reviews = runBlocking {
-            val service = SbDeliveryServiceFactory.instance
+            val service = NetworkManager.api
             service.reviews("5ed8da011f071c00465b2026", 0, 10)
         }
         assertThat(reviews.size, CoreMatchers.`is`(0))

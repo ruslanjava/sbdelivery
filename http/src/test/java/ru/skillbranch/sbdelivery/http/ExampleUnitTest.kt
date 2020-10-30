@@ -20,7 +20,7 @@ class ExampleUnitTest {
     @Test
     fun testCategories() {
         scope.launch {
-            val service = SbDeliveryServiceFactory.instance
+            val service = NetworkManager.api
             val categories = service.categories(1, 10)
             assertThat(categories.size, `is`(10))
         }

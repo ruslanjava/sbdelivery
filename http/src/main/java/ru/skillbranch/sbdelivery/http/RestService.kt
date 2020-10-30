@@ -1,44 +1,41 @@
 package ru.skillbranch.sbdelivery.http
 
 import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.http.*
-import ru.skillbranch.sbdelivery.http.auth.Authorized
-import ru.skillbranch.sbdelivery.http.data.auth.LoggedRes
-import ru.skillbranch.sbdelivery.http.data.auth.LoginRes
-import ru.skillbranch.sbdelivery.http.data.auth.RefreshTokenRes
-import ru.skillbranch.sbdelivery.http.data.auth.RegisterRes
+import ru.skillbranch.sbdelivery.http.data.auth.*
 import ru.skillbranch.sbdelivery.http.data.dishes.CategoryRes
 import ru.skillbranch.sbdelivery.http.data.dishes.DishRes
 import ru.skillbranch.sbdelivery.http.data.dishes.FavoriteDishRes
-import ru.skillbranch.sbdelivery.http.data.profile.ProfilePasswordRes
+import ru.skillbranch.sbdelivery.http.data.profile.ProfilePasswordReq
 import ru.skillbranch.sbdelivery.http.data.profile.ProfileRes
-import ru.skillbranch.sbdelivery.http.data.recovery.RecoveryCodeRes
-import ru.skillbranch.sbdelivery.http.data.recovery.RecoveryPasswordRes
-import ru.skillbranch.sbdelivery.http.data.recovery.RecoveryEmailRes
+import ru.skillbranch.sbdelivery.http.data.recovery.RecoveryCodeReq
+import ru.skillbranch.sbdelivery.http.data.recovery.RecoveryPasswordReq
+import ru.skillbranch.sbdelivery.http.data.recovery.RecoveryEmailReq
 import ru.skillbranch.sbdelivery.http.data.review.NewReviewRes
 import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
 
-interface SbDeliveryService {
+interface RestService {
 
     // -- авторизация --
 
     @POST("/auth/login")
-    suspend fun auth(@Body login: LoginRes): LoggedRes
+    suspend fun auth(@Body login: LoginReq): LoggedRes
 
     @POST("/auth/register")
-    suspend fun register(@Body register: RegisterRes): LoggedRes
+    suspend fun register(@Body register: RegisterReq): LoggedRes
 
     @POST("/auth/refresh")
-    suspend fun refreshToken(@Body body: RefreshTokenRes)
+    fun refreshToken(@Body body: RefreshTokenReq): Call<AccessTokenRes>
 
     @POST("/auth/recovery/email")
-    suspend fun recoveryEmail(@Body body: RecoveryEmailRes)
+    suspend fun recoveryEmail(@Body body: RecoveryEmailReq)
 
     @POST("/auth/recovery/code")
-    suspend fun recoveryCode(@Body body: RecoveryCodeRes)
+    suspend fun recoveryCode(@Body body: RecoveryCodeReq)
 
     @POST("/auth/recovery/password")
-    suspend fun recoveryCode(@Body body: RecoveryPasswordRes)
+    suspend fun recoveryCode(@Body body: RecoveryPasswordReq)
 
     // -- категории и блюда --
 
@@ -59,30 +56,30 @@ interface SbDeliveryService {
 
     // -- избранное --
 
-    @Authorized
+    // Authorized
     @GET("/favorite")
     suspend fun favoriteDishes(
         @Query("offset") offset: Int, @Query("limit") limit: Int = 10,
         @Header("If-Modified-Since") ifModifiedSince: String = "Wed, 21 Oct 2015 07:28:00 GMT"
     ): List<FavoriteDishRes>
 
-    @Authorized
+    // Authorized
     @PUT("/favorite")
     suspend fun favoriteDish(@Body favoriteDish: FavoriteDishRes): ResponseBody
 
     // -- профиль --
 
-    @Authorized
+    // Authorized
     @GET("/profile")
     suspend fun profile(): ProfileRes
 
-    @Authorized
+    // Authorized
     @PUT("/profile")
     suspend fun profile(@Body profile: ProfileRes)
 
-    @Authorized
+    // Authorized
     @PUT("/profile/password")
-    suspend fun profilePassword(@Body password: ProfilePasswordRes)
+    suspend fun profilePassword(@Body password: ProfilePasswordReq)
 
     // -- отзывы --
 
@@ -92,7 +89,7 @@ interface SbDeliveryService {
         @Header("If-Modified-Since") ifModifiedSince: String = "1970-01-01T00:00:00.000Z"
     ): List<ReviewRes>
 
-    @Authorized
+    // Authorized
     @POST("/reviews/{dishId}")
     suspend fun addReview(@Path("dishId") dishId: String, @Body newReview: NewReviewRes)
 

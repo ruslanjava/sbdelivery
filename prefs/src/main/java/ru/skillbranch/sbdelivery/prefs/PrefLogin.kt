@@ -15,6 +15,9 @@ class PrefLogin(context: Context) {
     // Пароль
     var password by EncryptedPrefDelegate(prefs, "")
 
+    // токен
+    var token by EncryptedPrefDelegate(prefs, "")
+
     fun clear() {
         prefs.edit().clear().apply()
     }
