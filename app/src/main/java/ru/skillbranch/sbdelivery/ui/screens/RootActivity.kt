@@ -3,16 +3,16 @@ package ru.skillbranch.sbdelivery.ui.screens
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.databinding.ActivityRootBinding
 
-class RootActivity : AppCompatActivity() {
+class RootActivity : DaggerAppCompatActivity() {
 
     lateinit var navController: NavController
 
@@ -26,6 +26,8 @@ class RootActivity : AppCompatActivity() {
         val binding = ActivityRootBinding.inflate(layoutInflater)
         rootContainer = binding.rootContainer
         setContentView(binding.root)
+
+        androidInjector().inject(viewModel)
 
         navController = Navigation.findNavController(this,
             R.id.nav_host_fragment

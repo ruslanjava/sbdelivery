@@ -11,10 +11,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.extensions.isNetworkAvailable
 import ru.skillbranch.sbdelivery.repository.root.RootRepository
+import javax.inject.Inject
 
 class RootViewModel(val app: Application) : AndroidViewModel(app) {
 
-    private val repository = RootRepository
+    @Inject
+    lateinit var repository: RootRepository
 
     @ExperimentalCoroutinesApi
     internal fun syncDataIfNeed() : LiveData<LoadResult<Boolean>> {

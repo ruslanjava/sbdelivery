@@ -10,16 +10,13 @@ import ru.skillbranch.sbdelivery.orm.CartDao
 import ru.skillbranch.sbdelivery.orm.CategoryDao
 import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.DishDao
+import javax.inject.Inject
 
-object RootRepository {
-
-    private val db: DeliveryDatabase by lazy {
-        DeliveryDatabase.getInstance(SbDeliveryApplication.context)
-    }
-
-    private val categoryDao: CategoryDao by lazy { db.categoryDao() }
-    private val dishDao: DishDao by lazy { db.dishDao() }
-    private val cartDao: CartDao by lazy { db.cartDao() }
+class RootRepository
+@Inject constructor(
+    val categoryDao: CategoryDao,
+    val dishDao: DishDao,
+    val cartDao: CartDao) {
 
     private val service: RestService by lazy { NetworkManager.api }
 

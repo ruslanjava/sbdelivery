@@ -40,6 +40,12 @@ dependencies {
     implementation RoomLibs.roomKtx
     kapt RoomLibs.roomCompiler
 
+    // Dagger2
+    implementation DaggerLibs.dagger
+    implementation DaggerLibs.daggerAndroidSupport
+    kapt DaggerLibs.daggerCompiler
+    kapt DaggerLibs.daggerProcessor
+
     // Test
     testImplementation TestLibs.junit
     testImplementation TestLibs.hamcrestCore
