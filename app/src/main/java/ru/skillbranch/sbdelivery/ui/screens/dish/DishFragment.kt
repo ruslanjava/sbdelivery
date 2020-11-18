@@ -121,7 +121,7 @@ class DishFragment : Fragment() {
 
         if (dish.rating > 0) {
             rvDishReviewsArea.visibility = View.VISIBLE
-            tvDishReviewsRating.text = String.format("%0.1f/5", dish.rating)
+            tvDishReviewsRating.text = String.format("%.1f/5", dish.rating)
         } else {
             rvDishReviewsArea.visibility = View.INVISIBLE
         }
