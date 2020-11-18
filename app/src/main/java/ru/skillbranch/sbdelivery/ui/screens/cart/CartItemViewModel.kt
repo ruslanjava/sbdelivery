@@ -1,40 +1,39 @@
 package ru.skillbranch.sbdelivery.ui.screens.cart
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
+import androidx.lifecycle.Observer
 import ru.skillbranch.sbdelivery.orm.CartDao
-import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartWithItems
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
+import ru.skillbranch.sbdelivery.viewModel.BaseViewModel
+import ru.skillbranch.sbdelivery.viewModel.Event
+import javax.inject.Inject
 
-class CartItemViewModel : ViewModel() {
+class CartItemViewModel : BaseViewModel() {
 
-    private val database: DeliveryDatabase by lazy {
-        DeliveryDatabase.getInstance(SbDeliveryApplication.context)
-    }
-    private val cartDao: CartDao by lazy { database.cartDao() }
+    @Inject
+    lateinit var cartDao: CartDao
 
-    private val cartLiveData: MutableLiveData<CartWithItems> = MutableLiveData()
+    private val cartLiveData = MutableLiveData<Event<CartWithItems>>()
 
-    fun cart(): LiveData<CartWithItems?> {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun observeCart(owner: LifecycleOwner, observer: Observer<CartWithItems>) {
+        launchSafely {
             val cart = cartDao.getFullCart()
-            cartLiveData.postValue(cart)
+            if (cart != null) {
+                cartLiveData.postValue(Event(cart))
+            }
         }
-        return cartLiveData
+        cartLiveData.observeEvents(owner, observer)
     }
 
     fun handleDishAmountChange(dish: Dish, amount: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        launchSafely {
             cartDao.upsertCartItem(dish.id, amount)
             val cart = cartDao.getFullCart()
-            cartLiveData.postValue(cart)
+            if (cart != null) {
+                cartLiveData.postValue(Event(cart))
+            }
         }
     }
 

@@ -1,21 +1,25 @@
 package ru.skillbranch.sbdelivery.ui.screens.about
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.skillbranch.sbdelivery.BuildConfig
+import ru.skillbranch.sbdelivery.viewModel.BaseViewModel
+import ru.skillbranch.sbdelivery.viewModel.Event
 
-class AboutViewModel : ViewModel() {
+class AboutViewModel : BaseViewModel() {
 
-    fun aboutVersion() : LiveData<String> {
+    fun observeVersion(owner: LifecycleOwner, observer: Observer<String>) {
         val aboutVersion = MutableLiveData<String>()
-        viewModelScope.launch(Dispatchers.IO) {
+        launchSafely {
             aboutVersion.postValue(BuildConfig.VERSION_NAME)
         }
-        return aboutVersion
+        aboutVersion.observe(owner, observer)
     }
 
 }

@@ -1,73 +1,74 @@
 package ru.skillbranch.sbdelivery.ui.screens.category
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import ru.skillbranch.sbdelivery.orm.CategoryDao
-import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.DishDao
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 import ru.skillbranch.sbdelivery.repository.SingleLiveData
+import ru.skillbranch.sbdelivery.viewModel.BaseViewModel
+import ru.skillbranch.sbdelivery.viewModel.Event
+import javax.inject.Inject
 
-class CategoryViewModel : ViewModel() {
+class CategoryViewModel : BaseViewModel() {
 
-    private val database: DeliveryDatabase by lazy {
-        DeliveryDatabase.getInstance(SbDeliveryApplication.context)
-    }
-    private val dishDao: DishDao by lazy { database.dishDao() }
-    private val categoryDao: CategoryDao by lazy { database.categoryDao() }
+    @Inject
+    lateinit var dishDao: DishDao
 
-    private val categoryData: SingleLiveData<Category> = SingleLiveData()
+    @Inject
+    lateinit var categoryDao: CategoryDao
 
-    private val addedDishes: SingleLiveData<Dish> = SingleLiveData()
-    private val clickedDishes: SingleLiveData<Dish> = SingleLiveData()
+    private val categoryData = MutableLiveData<Event<Category>>()
 
-    fun category(categoryId: String): SingleLiveData<Category> {
-        viewModelScope.launch(Dispatchers.IO) {
+    private val addedDishes = MutableLiveData<Event<Dish>>()
+    private val clickedDishes = MutableLiveData<Event<Dish>>()
+
+    fun observeCategory(owner: LifecycleOwner, categoryId: String, observer: Observer<Category>) {
+        launchSafely {
             val category: Category
             if (categoryId == Category.SALES.id) {
                 category = Category.SALES
             } else {
                 category = categoryDao.getCategory(categoryId)
             }
-            categoryData.postValue(category)
+            categoryData.postValue(Event(category))
         }
-        return categoryData
+        categoryData.observeEvents(owner, observer)
     }
 
-    fun subCategories(categoryId: String): LiveData<List<Category>> {
-        return categoryDao.getChildCategories(categoryId)
+    fun observeSubCategories(owner: LifecycleOwner, categoryId: String, observer: Observer<List<Category>>) {
+        val liveData = categoryDao.getChildCategories(categoryId)
+        liveData.observe(owner, observer)
     }
 
-    fun categoryDishes(categoryId: String): LiveData<List<Dish>> {
+    fun observeCategoryDishes(owner: LifecycleOwner, categoryId: String, observer: Observer<List<Dish>>) {
         val dishes : MediatorLiveData<List<Dish>> = MediatorLiveData()
         if (categoryId == Category.SALES.id) {
             dishes.addSource(dishDao.getSaleDishes()) { dishes.postValue(it) }
         } else {
             dishes.addSource(dishDao.getCategoryDishes(categoryId)) { dishes.postValue(it) }
         }
-        return dishes
+        dishes.observe(owner, observer)
     }
 
-    fun clickedDishes(): LiveData<Dish?> {
-        return clickedDishes
+    fun observeClickedDishes(owner: LifecycleOwner, observer: Observer<Dish>) {
+        clickedDishes.observeEvents(owner, observer)
     }
 
     fun handleAddClick(dish: Dish) {
-        addedDishes.postValue(dish)
+        addedDishes.postValue(Event(dish))
     }
 
     fun handleDishClick(dish: Dish) {
-        clickedDishes.postValue(dish)
+        clickedDishes.postValue(Event(dish))
     }
 
     fun handleFavoriteClick(dish: Dish) {
-        viewModelScope.launch(Dispatchers.IO) {
+        launchSafely {
             val dishId = dish.id
             dishDao.changeFavoriteState(dishId)
         }

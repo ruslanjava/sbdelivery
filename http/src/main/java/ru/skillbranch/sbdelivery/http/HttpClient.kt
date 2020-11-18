@@ -5,10 +5,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import ru.skillbranch.sbdelivery.http.data.dishes.CategoryRes
 import ru.skillbranch.sbdelivery.http.data.dishes.DishRes
 import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
+import ru.skillbranch.sbdelivery.http.errors.ApiError
 
 object HttpClient {
 
@@ -141,9 +141,9 @@ object HttpClient {
                 var categories: List<CategoryRes>
                 try {
                     categories = service.categories(offset, LIMIT)
-                } catch (e: HttpException) {
-                    if (e.code() == 304) {
-                        categories = listOf<CategoryRes>()
+                } catch (e: ApiError) {
+                    if (e is ApiError.NotModified) {
+                        categories = listOf()
                     } else {
                         throw e
                     }
@@ -170,8 +170,8 @@ object HttpClient {
                 var dishes: List<DishRes>
                 try {
                     dishes = service.dishes(offset, LIMIT)
-                } catch (e: HttpException) {
-                    if (e.code() == 304) {
+                } catch (e: ApiError) {
+                    if (e is ApiError.NotModified) {
                         dishes = listOf()
                     } else {
                         throw e
@@ -200,8 +200,8 @@ object HttpClient {
                 var reviews: List<ReviewRes>
                 try {
                     reviews = service.reviews(dishId, offset, LIMIT)
-                } catch (e: HttpException) {
-                    if (e.code() == 304) {
+                } catch (e: ApiError) {
+                    if (e is ApiError.NotModified) {
                         reviews = listOf()
                     } else {
                         throw e

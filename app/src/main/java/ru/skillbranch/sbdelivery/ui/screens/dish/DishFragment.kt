@@ -1,7 +1,7 @@
 package ru.skillbranch.sbdelivery.ui.screens.dish
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,10 +10,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.skillbranch.sbdelivery.databinding.FragmentDishBinding
 import ru.skillbranch.sbdelivery.http.data.review.ReviewRes
@@ -21,9 +21,8 @@ import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
 import java.text.DecimalFormat
 
-class DishFragment : Fragment() {
+class DishFragment : DaggerFragment() {
 
-    private val viewModel: DishViewModel by viewModels()
     private val args: DishFragmentArgs by navArgs()
 
     private lateinit var tvDishFragmentTitle: AppCompatTextView
@@ -41,6 +40,13 @@ class DishFragment : Fragment() {
 
     private lateinit var rvDishReviewsList: RecyclerView
     private lateinit var adapter: CommentListAdapter
+
+    private val viewModel: DishViewModel by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        androidInjector().inject(viewModel)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,12 +90,12 @@ class DishFragment : Fragment() {
     @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.dish(args.dishId).observe(viewLifecycleOwner, Observer { dish ->
+        viewModel.observeDish(viewLifecycleOwner, args.dishId) { dish ->
             updateViews(dish)
-        })
-        viewModel.comments(args.dishId).observe(viewLifecycleOwner, Observer { comments ->
+        }
+        viewModel.observeComments(viewLifecycleOwner, args.dishId) { comments ->
             updateComments(comments)
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

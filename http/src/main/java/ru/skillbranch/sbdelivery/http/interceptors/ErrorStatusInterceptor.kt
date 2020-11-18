@@ -1,11 +1,8 @@
 package ru.skillbranch.sbdelivery.http.interceptors
 
-import com.squareup.moshi.JsonEncodingException
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.skillbranch.sbdelivery.http.JsonConverter.moshi
 import ru.skillbranch.sbdelivery.http.errors.ApiError
-import ru.skillbranch.sbdelivery.http.errors.ErrorBody
 
 class ErrorStatusInterceptor: Interceptor {
 
@@ -16,13 +13,10 @@ class ErrorStatusInterceptor: Interceptor {
             return res
         }
 
-        val errMessage = try {
-            moshi.adapter(ErrorBody::class.java).fromJson(res.body!!.string())?.message
-        } catch (e: JsonEncodingException) {
-            e.message
-        }
+        val errMessage = res.body!!.string()
 
         when (res.code) {
+            304 -> throw ApiError.NotModified(errMessage)
             400 -> throw ApiError.BadRequest(errMessage)
             401 -> throw ApiError.Unauthorized(errMessage)
             403 -> throw ApiError.Forbidden(errMessage)

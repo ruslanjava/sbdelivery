@@ -1,5 +1,6 @@
 package ru.skillbranch.sbdelivery.ui.screens.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
@@ -21,7 +23,7 @@ import ru.skillbranch.sbdelivery.ui.dishList.DishListAdapter
 import ru.skillbranch.sbdelivery.ui.screens.dish.DishFragmentArgs
 import ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItem.*
 
-class MainFragment : Fragment() {
+class MainFragment : DaggerFragment() {
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -41,6 +43,11 @@ class MainFragment : Fragment() {
     private lateinit var popularGroup: Group
     private lateinit var rvPopularList: RecyclerView
     private lateinit var popularAdapter: DishListAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        androidInjector().inject(viewModel)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -74,22 +81,22 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.recommendedDishes().observe(viewLifecycleOwner, Observer { dishes ->
+        viewModel.observeRecommendedDishes(viewLifecycleOwner) { dishes ->
             recommendedAdapter.updateItems(dishes)
             recommendedGroup.visibility = if (dishes.isEmpty()) View.GONE else View.VISIBLE
-        })
+        }
 
-        viewModel.bestDishes().observe(viewLifecycleOwner, Observer { dishes ->
+        viewModel.observeBestDishes(viewLifecycleOwner) { dishes ->
             bestAdapter.updateItems(dishes)
             bestGroup.visibility = if (dishes.isEmpty()) View.GONE else View.VISIBLE
-        })
+        }
 
-        viewModel.popularDishes().observe(viewLifecycleOwner, Observer { dishes ->
+        viewModel.observePopularDishes(viewLifecycleOwner) { dishes ->
             popularAdapter.updateItems(dishes)
             popularGroup.visibility = if (dishes.isEmpty()) View.GONE else View.VISIBLE
-        })
+        }
 
-        viewModel.menuItemClicks().observe(viewLifecycleOwner, Observer { item ->
+        viewModel.observeMenuItemClicks(viewLifecycleOwner) { item ->
             if (item != null) {
                 val activity = activity as RootActivity
                 val navController = activity.navController
@@ -103,15 +110,13 @@ class MainFragment : Fragment() {
                     else -> {} /* */
                 }
             }
-        })
+        }
 
-        viewModel.clickedDishes().observe(viewLifecycleOwner, Observer { dish ->
-            dish?.let {
-                val activity = activity as RootActivity
-                val navController = activity.navController
-                navController.navigate(R.id.action_nav_main_to_nav_dish, DishFragmentArgs(it.id).toBundle())
-            }
-        })
+        viewModel.observeClickedDishes(viewLifecycleOwner) { dish ->
+            val activity = activity as RootActivity
+            val navController = activity.navController
+            navController.navigate(R.id.action_nav_main_to_nav_dish, DishFragmentArgs(dish.id).toBundle())
+        }
 
         drawerToggle.syncState()
     }

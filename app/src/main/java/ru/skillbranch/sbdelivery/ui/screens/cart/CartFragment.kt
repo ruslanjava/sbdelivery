@@ -1,7 +1,7 @@
 package ru.skillbranch.sbdelivery.ui.screens.cart
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,15 +10,14 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import dagger.android.support.DaggerFragment
 import ru.skillbranch.sbdelivery.databinding.FragmentCartBinding
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
+import timber.log.Timber
 
-class CartFragment : Fragment() {
-
-    private val viewModel: CartItemViewModel by viewModels()
+class CartFragment : DaggerFragment() {
 
     private lateinit var cartList: RecyclerView
     private lateinit var adapter: CartListAdapter
@@ -30,6 +29,13 @@ class CartFragment : Fragment() {
     private lateinit var totalLabel: AppCompatTextView
     private lateinit var totalValue: AppCompatTextView
     private lateinit var orderButton: Button
+
+    private val viewModel: CartItemViewModel by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        androidInjector().inject(viewModel)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +69,13 @@ class CartFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.cart().observe(viewLifecycleOwner, Observer { cart ->
+        viewModel.observeErrors(viewLifecycleOwner) { error ->
+            val activity = activity as RootActivity
+            Timber.e(error)
+            activity.showError(error.message ?: error.toString())
+        }
+
+        viewModel.observeCart(viewLifecycleOwner) { cart ->
             if (cart != null) {
                 adapter.updateItems(cart.items)
 
@@ -90,7 +102,7 @@ class CartFragment : Fragment() {
 
                 orderButton.visibility = View.INVISIBLE
             }
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

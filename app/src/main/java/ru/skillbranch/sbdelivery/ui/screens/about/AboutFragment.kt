@@ -8,15 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import ru.skillbranch.sbdelivery.databinding.FragmentAboutBinding
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
 
 class AboutFragment : Fragment() {
 
-    private val viewModel: AboutViewModel by viewModels()
     private lateinit var aboutVersionValue: AppCompatTextView
+
+    private val viewModel: AboutViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,9 +44,9 @@ class AboutFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.aboutVersion().observe(viewLifecycleOwner, Observer { version ->
+        viewModel.observeVersion(viewLifecycleOwner) { version ->
             updateAboutViews(version)
-        })
+        }
     }
 
     private fun updateAboutViews(version: String) {

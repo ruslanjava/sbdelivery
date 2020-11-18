@@ -1,81 +1,77 @@
 package ru.skillbranch.sbdelivery.ui.screens.main
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
-import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
 import ru.skillbranch.sbdelivery.http.HttpClient
-import ru.skillbranch.sbdelivery.orm.DeliveryDatabase
 import ru.skillbranch.sbdelivery.orm.DishDao
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
-import ru.skillbranch.sbdelivery.repository.SingleLiveData
+import ru.skillbranch.sbdelivery.viewModel.BaseViewModel
+import ru.skillbranch.sbdelivery.viewModel.Event
+import javax.inject.Inject
 
-internal class MainViewModel : ViewModel() {
+class MainViewModel : BaseViewModel() {
 
-    private val database: DeliveryDatabase by lazy {
-        DeliveryDatabase.getInstance(SbDeliveryApplication.context)
-    }
-    private val dishDao: DishDao by lazy { database.dishDao() }
+    @Inject
+    lateinit var dishDao: DishDao
 
-    private val recommendedDishes: MediatorLiveData<List<Dish>> = MediatorLiveData()
+    private val recommendedDishes = MediatorLiveData<List<Dish>>()
 
-    private val addedDishes: SingleLiveData<Dish> = SingleLiveData()
-    private val clickedDishes: SingleLiveData<Dish> = SingleLiveData()
-    private val menuItemClicks: SingleLiveData<MainMenuItem> = SingleLiveData()
-
-    @ExperimentalCoroutinesApi
-    fun popularDishes(): LiveData<List<Dish>> {
-        return dishDao.getPopularDishes()
-    }
+    private val addedDishes = MutableLiveData<Event<Dish>>()
+    private val clickedDishes = MutableLiveData<Event<Dish>>()
+    private val menuItemClicks = MutableLiveData<Event<MainMenuItem>>()
 
     @ExperimentalCoroutinesApi
-    fun recommendedDishes(): LiveData<List<Dish>> {
-        recommendedDishes.addSource(dishDao.getRecommendedDishes(), Observer {
+    fun observePopularDishes(owner: LifecycleOwner, observer: Observer<List<Dish>>) {
+        dishDao.getPopularDishes().observe(owner, observer)
+    }
+
+    @ExperimentalCoroutinesApi
+    fun observeRecommendedDishes(owner: LifecycleOwner, observer: Observer<List<Dish>>) {
+        recommendedDishes.addSource(dishDao.getRecommendedDishes()) {
             recommendedDishes.postValue(it)
-        })
-        viewModelScope.launch(Dispatchers.IO) {
+        }
+        launchSafely {
             // затем отдаем обновленный вариант
             val ids = HttpClient.getRecommendedIds()
             dishDao.updateRecommendedDishes(ids)
         }
-        return recommendedDishes
+        recommendedDishes.observe(owner, observer)
     }
 
     @ExperimentalCoroutinesApi
-    fun bestDishes(): LiveData<List<Dish>> {
-        return dishDao.getBestDishes()
+    fun observeBestDishes(owner: LifecycleOwner, observer: Observer<List<Dish>>) {
+        dishDao.getBestDishes().observe(owner, observer)
     }
 
-    fun addedDishes(): LiveData<Dish?> {
-        return addedDishes
+    fun observeAddedDishes(owner: LifecycleOwner, observer: Observer<Dish>) {
+        addedDishes.observeEvents(owner, observer)
     }
 
-    fun clickedDishes(): LiveData<Dish?> {
-        return clickedDishes
+    fun observeClickedDishes(owner: LifecycleOwner, observer: Observer<Dish>) {
+        clickedDishes.observeEvents(owner, observer)
     }
 
-    fun menuItemClicks(): LiveData<MainMenuItem?> {
-        return menuItemClicks
+    fun observeMenuItemClicks(owner: LifecycleOwner, observer: Observer<MainMenuItem>) {
+        menuItemClicks.observeEvents(owner, observer)
     }
 
     fun handleAddClick(dish: Dish) {
-        addedDishes.postValue(dish)
+        addedDishes.postValue(Event(dish))
     }
 
     fun handleDishClick(dish: Dish) {
-        clickedDishes.postValue(dish)
+        clickedDishes.postValue(Event(dish))
     }
 
     fun handleFavoriteClick(dish: Dish) {
-        viewModelScope.launch(Dispatchers.IO) {
+        launchSafely {
             val dishId = dish.id
             dishDao.changeFavoriteState(dishId)
         }
     }
 
     fun handleMainItemClick(menuItem: MainMenuItem) {
-        menuItemClicks.postValue(menuItem)
+        menuItemClicks.postValue(Event(menuItem))
     }
 
 }

@@ -1,26 +1,31 @@
 package ru.skillbranch.sbdelivery.ui.screens.menu
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import dagger.android.support.DaggerFragment
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.databinding.FragmentMenuBinding
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
 import ru.skillbranch.sbdelivery.ui.screens.category.CategoryFragmentArgs
 
-class MenuFragment : Fragment() {
+class MenuFragment : DaggerFragment() {
 
     private val viewModel: MenuViewModel by viewModels()
 
     private lateinit var rvMenuList: RecyclerView
     private lateinit var adapter: CategoryListAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        androidInjector().inject(viewModel)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,16 +48,16 @@ class MenuFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.categories().observe(viewLifecycleOwner, Observer { categories ->
+        viewModel.observeCategories(viewLifecycleOwner) { categories ->
             adapter.updateItems(categories)
-        })
+        }
 
-        viewModel.categoryClicks().observe(viewLifecycleOwner, Observer { category ->
+        viewModel.observeCategoryClicks(viewLifecycleOwner) { category ->
             val activity = activity as RootActivity
             val navController = activity.navController
-            val args = CategoryFragmentArgs(category!!.id)
+            val args = CategoryFragmentArgs(category.id)
             navController.navigate(R.id.action_nav_menu_to_nav_category, args.toBundle())
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,27 +1,32 @@
 package ru.skillbranch.sbdelivery.ui.screens.favorites
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import dagger.android.support.DaggerFragment
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.databinding.FragmentFavoritesBinding
 import ru.skillbranch.sbdelivery.ui.dishList.DishListAdapter
 import ru.skillbranch.sbdelivery.ui.screens.RootActivity
 import ru.skillbranch.sbdelivery.ui.screens.dish.DishFragmentArgs
 
-class FavoritesFragment : Fragment() {
-
-    private val viewModel: FavoritesViewModel by viewModels()
+class FavoritesFragment : DaggerFragment() {
 
     private lateinit var rvFavoritesList: RecyclerView
     private lateinit var adapter: DishListAdapter
+
+    private val viewModel: FavoritesViewModel by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        androidInjector().inject(viewModel)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,17 +54,17 @@ class FavoritesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.favoriteDishes().observe(viewLifecycleOwner, Observer { dishes ->
+        viewModel.observeFavoriteDishes(viewLifecycleOwner) { dishes ->
             adapter.updateItems(dishes)
-        })
+        }
 
-        viewModel.clickedDishes().observe(viewLifecycleOwner, Observer { dish ->
+        viewModel.observeClickedDishes(viewLifecycleOwner) { dish ->
             dish?.let {
                 val activity = activity as RootActivity
                 val navController = activity.navController
                 navController.navigate(R.id.action_nav_favorites_to_nav_dish, DishFragmentArgs(it.id).toBundle())
             }
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

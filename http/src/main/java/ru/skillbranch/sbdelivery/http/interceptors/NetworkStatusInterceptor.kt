@@ -5,7 +5,7 @@ import okhttp3.Response
 import ru.skillbranch.sbdelivery.http.NetworkMonitor
 import ru.skillbranch.sbdelivery.http.errors.NoNetworkError
 
-class NetworkStatusInterceptor(): Interceptor {
+class NetworkStatusInterceptor: Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         // return response or throw error

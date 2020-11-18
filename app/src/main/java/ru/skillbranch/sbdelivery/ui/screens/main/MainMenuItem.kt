@@ -1,6 +1,6 @@
 package ru.skillbranch.sbdelivery.ui.screens.main
 
-internal enum class MainMenuItem {
+enum class MainMenuItem {
 
     MAIN,           // главная
     MENU,           // меню

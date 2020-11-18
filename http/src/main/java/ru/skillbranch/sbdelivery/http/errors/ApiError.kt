@@ -8,6 +8,7 @@ sealed class ApiError (override val message: String): IOException(message) {
     class Forbidden(message: String?): ApiError(message ?: "Access denied")
     class NotFound(message: String?): ApiError(message ?: "Requested page not found")
     class InternalServerError(message: String?): ApiError(message ?: "Internal server error")
+    class NotModified(message: String?): ApiError(message ?: "Not modified")
     class UnknownError(message: String?): ApiError(message ?: "Unknown error")
 }
 
