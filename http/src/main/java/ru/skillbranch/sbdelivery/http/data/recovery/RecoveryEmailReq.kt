@@ -2,7 +2,7 @@ package ru.skillbranch.sbdelivery.http.data.recovery
 
 import com.squareup.moshi.Json
 
-class RecoveryEmailRes {
+class RecoveryEmailReq {
 
     // E-mail пользователя
     @Json(name = "email")

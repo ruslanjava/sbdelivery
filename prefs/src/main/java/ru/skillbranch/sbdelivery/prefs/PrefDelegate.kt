@@ -4,7 +4,10 @@ import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-open class PrefDelegate<X, T>(var prefs: SharedPreferences, private val defaultValue: T) : ReadWriteProperty<X, T?> {
+open class PrefDelegate<X, T>(
+        var prefs: SharedPreferences,
+        private val defaultValue: T
+) : ReadWriteProperty<X, T?> {
 
     private var actualValue: T? = null
 

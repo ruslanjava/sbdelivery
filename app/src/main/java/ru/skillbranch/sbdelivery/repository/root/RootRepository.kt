@@ -3,8 +3,8 @@ package ru.skillbranch.sbdelivery.repository.root
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ru.skillbranch.sbdelivery.application.SbDeliveryApplication
 import ru.skillbranch.sbdelivery.http.HttpClient
-import ru.skillbranch.sbdelivery.http.SbDeliveryService
-import ru.skillbranch.sbdelivery.http.SbDeliveryServiceFactory
+import ru.skillbranch.sbdelivery.http.RestService
+import ru.skillbranch.sbdelivery.http.NetworkManager
 import ru.skillbranch.sbdelivery.http.data.dishes.DishRes
 import ru.skillbranch.sbdelivery.orm.CartDao
 import ru.skillbranch.sbdelivery.orm.CategoryDao
@@ -21,7 +21,7 @@ object RootRepository {
     private val dishDao: DishDao by lazy { db.dishDao() }
     private val cartDao: CartDao by lazy { db.cartDao() }
 
-    private val service: SbDeliveryService by lazy { SbDeliveryServiceFactory.instance }
+    private val service: RestService by lazy { NetworkManager.api }
 
     suspend fun isNeedUpdate(): Boolean {
         // если в БД ничего нет - обновление требуется

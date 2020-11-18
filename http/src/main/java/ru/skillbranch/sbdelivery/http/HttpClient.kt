@@ -16,7 +16,7 @@ object HttpClient {
     private val LAST_DISH = listOf<DishRes>()
     private val LAST_REVIEW = listOf<ReviewRes>()
 
-    private val service = SbDeliveryServiceFactory.instance
+    private val service = NetworkManager.api
     private val scope = CoroutineScope(Dispatchers.IO)
 
     private const val THREADS = 8
