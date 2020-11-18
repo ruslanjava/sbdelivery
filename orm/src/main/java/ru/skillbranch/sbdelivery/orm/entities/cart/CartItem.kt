@@ -1,31 +1,33 @@
 package ru.skillbranch.sbdelivery.orm.entities.cart
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.annotation.NonNull
+import androidx.room.*
+import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 
-@Entity(tableName = "cart_item")
+@Entity(
+    tableName = "cart_item",
+    foreignKeys = [
+        ForeignKey(entity = Cart::class, parentColumns = ["id"], childColumns = ["cart_id"]
+    )],
+    indices = [
+        Index("cart_id")
+    ]
+)
 class CartItem {
 
     // ID блюда
     @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "id")
-    var id: Long? = null
+    lateinit var id: String
 
     // ID корзины
+    @NonNull
     @ColumnInfo(name = "cart_id")
-    var cartId: Long? = null
-
-    // ID блюда
-    @ColumnInfo(name = "dish_id")
-    var dishId: String? = null
+    var cartId: Long = 1
 
     // Количество
     @ColumnInfo(name = "amount")
     var amount: Int = 0
-
-    // Стоимость с учетом количества
-    @ColumnInfo(name = "number")
-    var number: Int = 0
 
 }

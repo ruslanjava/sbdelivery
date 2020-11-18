@@ -13,7 +13,7 @@ import ru.skillbranch.sbdelivery.repository.SingleLiveData
 
 class FavoritesViewModel : ViewModel() {
 
-    private val database: DeliveryDatabase by lazy{
+    private val database: DeliveryDatabase by lazy {
         DeliveryDatabase.getInstance(SbDeliveryApplication.context)
     }
     private val dishDao: DishDao by lazy { database.dishDao() }
@@ -47,6 +47,5 @@ class FavoritesViewModel : ViewModel() {
             dishDao.changeFavoriteState(dishId)
         }
     }
-
 
 }

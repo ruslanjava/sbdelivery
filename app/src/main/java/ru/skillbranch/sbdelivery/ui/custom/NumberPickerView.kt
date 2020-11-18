@@ -31,6 +31,11 @@ class NumberPickerView(context: Context, attributeSet: AttributeSet) : FrameLayo
         setValue(1)
     }
 
+    fun getValue(): Int {
+        val text = valueView.text.toString()
+        return text.toInt()
+    }
+
     fun setValue(value: Int) {
         this.number = value
         valueView.text = number.toString()

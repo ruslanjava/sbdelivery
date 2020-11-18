@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/windowBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.screens.dish.DishFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimaryDark"
+            app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_baseline_menu_24"
+            app:contentInsetStartWithNavigation="0dp"
+            app:theme="@style/AppToolbar">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dish_fragment_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="start|center_vertical"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="@dimen/text_size_medium"
+                android:text="@string/main_cart"
+                android:maxLines="1"
+                android:layout_marginEnd="@dimen/margin_medium"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="4sp"
+                app:autoSizeStepGranularity="0.5sp"
+                app:autoSizeTextType="uniform" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_cart_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/view_list_item_cart"
+        android:layout_marginBottom="@dimen/margin_medium"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
+        app:layout_constraintBottom_toTopOf="@id/cart_promo_field" />
+
+    <EditText
+        android:id="@+id/cart_promo_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cart_promo_button"
+        app:layout_constraintBottom_toTopOf="@id/cart_promo_description"
+        android:visibility="invisible"
+        android:textColorHint="?attr/textColorSecondary"
+        android:backgroundTint="?attr/colorPrimaryDark"
+        android:textSize="@dimen/text_size_small"
+        tools:hint="Введите промокод" />
+
+    <Button
+        android:id="@+id/cart_promo_button"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:text="@string/cart_promo_apply"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/text_size_small"
+        android:background="@drawable/background_comment"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cart_promo_field"
+        app:layout_constraintBottom_toBottomOf="@id/cart_promo_field"
+        app:layout_constraintStart_toEndOf="@id/cart_promo_field"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/cart_promo_description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:fontFamily="sans-serif"
+        android:gravity="start"
+        android:textColor="?attr/colorAccent"
+        android:textSize="@dimen/text_size_medium"
+        tools:text="Скидка 100 рублей!"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cart_total" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/cart_total_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="start"
+        android:textColor="?attr/colorAccent"
+        android:textSize="@dimen/text_size_dish_title"
+        tools:text="1960 ₽"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cart_order_button" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/cart_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="start"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/text_size_dish_title"
+        android:text="@string/cart_total"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cart_order_button" />
+
+    <Button
+        android:id="@+id/cart_order_button"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:text="@string/cart_order"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

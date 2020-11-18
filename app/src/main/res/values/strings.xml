@@ -27,4 +27,8 @@
     <string name="dish_reviews_header">Отзывы</string>
     <string name="dish_add_comment">Добавить отзыв</string>
 
+    <string name="cart_total">Итого</string>
+    <string name="cart_order">Оформить заказ</string>
+    <string name="cart_promo_apply">Применить</string>
+
 </resources>

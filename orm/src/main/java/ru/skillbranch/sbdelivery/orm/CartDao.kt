@@ -3,60 +3,61 @@ package ru.skillbranch.sbdelivery.orm
 import androidx.room.*
 import ru.skillbranch.sbdelivery.orm.entities.cart.Cart
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartItem
+import ru.skillbranch.sbdelivery.orm.entities.cart.CartItemFull
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartWithItems
 
 @Dao
-abstract class CartDao {
+interface CartDao {
 
     @Transaction
-    @Query("SELECT * FROM cart LIMIT 1")
-    abstract fun getCart(): CartWithItems?
-
-    @Transaction
-    open fun insert(cart: CartWithItems): Long {
-        val cartId = insertCart(cart)
-        cart.items.forEach {
-            it.cartId = cartId
-            insertCartItem(it)
-        }
-        return cartId
+    fun getFullCart(): CartWithItems? {
+        val cart = selectCart() ?: return null
+        val items = selectCartItems()
+        cart.items = items
+        return cart
     }
 
     @Transaction
-    open fun updateCart(cart: CartWithItems) {
-        updateCart(cart)
-        deleteCartItems(cart.id)
-        cart.items.forEach {
-            insertCartItem(it)
-        }
+    fun upsertCartItem(id: String, amount: Int) {
+        val cartItem = CartItem()
+        cartItem.id = id
+        cartItem.amount = amount
+        insertCartItem(cartItem)
     }
 
     @Transaction
-    open fun clearTables() {
+    fun insert(cart: Cart): Long {
+        return insertCart(cart)
+    }
+
+    @Transaction
+    fun clearTables() {
         deleteCartItems()
         deleteCart()
     }
 
-    @Transaction
     @Query("SELECT * FROM cart LIMIT 1")
-    abstract fun selectCart(): CartWithItems?
+    fun selectCart(): CartWithItems?
+
+    @Query("SELECT * FROM CartItemFull")
+    fun selectCartItems(): List<CartItemFull>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    protected abstract fun insertCart(cart: Cart): Long
+    fun insertCart(cart: Cart): Long
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    protected abstract fun insertCartItem(item: CartItem): Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCartItem(item: CartItem): Long
 
     @Update
-    protected abstract fun updateCart(cart: Cart)
+    fun updateCart(cart: Cart)
+
+    @Update
+    fun updateCartItem(item: CartItem)
 
     @Query("DELETE FROM cart")
-    protected abstract fun deleteCart()
+    fun deleteCart()
 
     @Query("DELETE FROM cart_item")
-    protected abstract fun deleteCartItems()
-
-    @Query("DELETE FROM cart_item WHERE cart_id = :cartId")
-    protected abstract fun deleteCartItems(cartId: Long)
+    fun deleteCartItems()
 
 }

@@ -6,13 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import ru.skillbranch.sbdelivery.orm.entities.cart.Cart
 import ru.skillbranch.sbdelivery.orm.entities.cart.CartItem
+import ru.skillbranch.sbdelivery.orm.entities.cart.CartItemFull
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 
 @Database(entities = [
     Cart::class, CartItem::class,
     Category::class, Dish::class
-], version = 1, exportSchema = false)
+],
+    version = 1,
+    exportSchema = false,
+    views = [ CartItemFull::class ]
+)
 abstract class DeliveryDatabase: RoomDatabase() {
 
     abstract fun cartDao(): CartDao
@@ -44,7 +49,9 @@ abstract class DeliveryDatabase: RoomDatabase() {
         fun destroyInstance() {
             INSTANCE = null
         }
-        
+
+        const val DATABASE_VERSION = 1
+
     }
 
 }

@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.ui.screens.menu
+package ru.skillbranch.sbdelivery.ui.screens.category.subCategoryList
 
 import android.content.Context
 import android.graphics.drawable.PictureDrawable
@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import ru.skillbranch.sbdelivery.R
-import ru.skillbranch.sbdelivery.databinding.ViewListItemCategoryBinding
+import ru.skillbranch.sbdelivery.databinding.ViewListItemSubCategoryBinding
 import ru.skillbranch.sbdelivery.glide.SvgSoftwareLayerSetter
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Category
 
-class CategoryViewHolder(
+class SubCategoryViewHolder(
     itemView: View, clickListener: (Category) -> Unit
 ) : RecyclerView.ViewHolder(itemView) {
 
@@ -27,7 +27,7 @@ class CategoryViewHolder(
     private val requestBuilder: RequestBuilder<PictureDrawable>
 
     init {
-        val binding = ViewListItemCategoryBinding.bind(itemView)
+        val binding = ViewListItemSubCategoryBinding.bind(itemView)
         itemView.setOnClickListener(itemClickListener)
 
         ivIconView = binding.categoryItemIcon
@@ -36,13 +36,13 @@ class CategoryViewHolder(
         requestBuilder = Glide.with(itemView.context)
             .`as`(PictureDrawable::class.java)
             .placeholder(R.drawable.ic_more_28)
-            .error(R.drawable.ic_error_28)
+            .error(R.drawable.ic_menu)
             .listener(SvgSoftwareLayerSetter())
     }
 
     fun bind(item: Category) {
         if (item == Category.SALES) {
-            Glide.with(context)
+            requestBuilder
                 .load(R.drawable.ic_sale_28)
                 .into(ivIconView)
             tvNameView.text = context.getString(R.string.menu_sales)
