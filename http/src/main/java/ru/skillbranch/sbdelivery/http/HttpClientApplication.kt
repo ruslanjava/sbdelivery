@@ -11,9 +11,6 @@ class HttpClientApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        // start network monitoring
-        NetworkMonitor.registerNetworkMonitor(applicationContext)
     }
 
     companion object {
