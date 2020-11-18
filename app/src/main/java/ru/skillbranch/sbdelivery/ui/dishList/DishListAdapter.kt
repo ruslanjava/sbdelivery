@@ -8,7 +8,9 @@ import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 
 class DishListAdapter(
+    private val layoutId: Int = R.layout.view_list_item_dish,
     private val addListener: (Dish) -> Unit,
+    private val favoriteListener: (Dish) -> Unit,
     private val clickListener: (Dish) -> Unit
 ): RecyclerView.Adapter<DishViewHolder>() {
 
@@ -16,8 +18,8 @@ class DishListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.view_list_item_dish, parent, false)
-        return DishViewHolder(view, addListener, clickListener)
+        val view = layoutInflater.inflate(layoutId, parent, false)
+        return DishViewHolder(view, addListener, favoriteListener, clickListener)
     }
 
     override fun onBindViewHolder(holder: DishViewHolder, position: Int) {
@@ -60,6 +62,7 @@ class DishListAdapter(
             val newItem = newItems[newItemPosition]
             return oldItem.id == newItem.id &&
                     oldItem.name.equals(newItem.name) &&
+                    oldItem.favorite == newItem.favorite &&
                     oldItem.updatedAt == newItem.updatedAt
         }
 

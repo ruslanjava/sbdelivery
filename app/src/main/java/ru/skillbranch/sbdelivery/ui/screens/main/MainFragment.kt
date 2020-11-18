@@ -8,7 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -18,7 +17,6 @@ import ru.skillbranch.sbdelivery.ui.screens.RootActivity
 import ru.skillbranch.sbdelivery.databinding.FragmentMainBinding
 import ru.skillbranch.sbdelivery.databinding.FragmentMainContentBinding
 import ru.skillbranch.sbdelivery.databinding.NavMenuMainBinding
-import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 import ru.skillbranch.sbdelivery.ui.dishList.DishListAdapter
 import ru.skillbranch.sbdelivery.ui.screens.dish.DishFragmentArgs
 import ru.skillbranch.sbdelivery.ui.screens.main.MainMenuItem.*
@@ -99,6 +97,7 @@ class MainFragment : Fragment() {
 
                 when (item) {
                     MENU -> navController.navigate(R.id.action_nav_main_to_nav_menu)
+                    FAVORITES -> navController.navigate(R.id.action_nav_main_to_nav_favorites)
                     ABOUT -> navController.navigate(R.id.action_nav_main_to_nav_about)
                     else -> {} /* */
                 }
@@ -161,7 +160,7 @@ class MainFragment : Fragment() {
 
         menuBinding.navMainItem.bind(MAIN)
         menuBinding.navMenuItem.bind(MENU)
-        menuBinding.navFavoriteItem.bind(FAVORITE)
+        menuBinding.navFavoriteItem.bind(FAVORITES)
         menuBinding.navCartItem.bind(CART)
         menuBinding.navProfileItem.bind(PROFILE)
         menuBinding.navOrdersItem.bind(ORDERS)
@@ -176,7 +175,9 @@ class MainFragment : Fragment() {
 
     private fun createDishAdapter(): DishListAdapter {
         return DishListAdapter(
+            R.layout.view_list_item_dish,
             { dish -> viewModel.handleAddClick(dish) },
+            { dish -> viewModel.handleFavoriteClick(dish) },
             { dish -> viewModel.handleDishClick(dish) }
         )
     }

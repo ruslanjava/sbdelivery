@@ -1,9 +1,6 @@
 package ru.skillbranch.sbdelivery.ui.screens.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -21,7 +18,7 @@ internal class MainViewModel : ViewModel() {
     }
     private val dishDao: DishDao by lazy { database.dishDao() }
 
-    private val recommendedDishes: MutableLiveData<List<Dish>> = MutableLiveData()
+    private val recommendedDishes: MediatorLiveData<List<Dish>> = MediatorLiveData()
 
     private val addedDishes: SingleLiveData<Dish> = SingleLiveData()
     private val clickedDishes: SingleLiveData<Dish> = SingleLiveData()
@@ -34,16 +31,13 @@ internal class MainViewModel : ViewModel() {
 
     @ExperimentalCoroutinesApi
     fun recommendedDishes(): LiveData<List<Dish>> {
+        recommendedDishes.addSource(dishDao.getRecommendedDishes(), Observer {
+            recommendedDishes.postValue(it)
+        })
         viewModelScope.launch(Dispatchers.IO) {
-            // сначала отдаем версию из кеша
-            val oldList = dishDao.getRecommendedDishes()
-            recommendedDishes.postValue(oldList)
-
             // затем отдаем обновленный вариант
             val ids = HttpClient.getRecommendedIds()
             dishDao.updateRecommendedDishes(ids)
-            val newList = dishDao.getRecommendedDishes()
-            recommendedDishes.postValue(newList)
         }
         return recommendedDishes
     }
@@ -71,6 +65,13 @@ internal class MainViewModel : ViewModel() {
 
     fun handleDishClick(dish: Dish) {
         clickedDishes.postValue(dish)
+    }
+
+    fun handleFavoriteClick(dish: Dish) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val dishId = dish.id
+            dishDao.changeFavoriteState(dishId)
+        }
     }
 
     fun handleMainItemClick(menuItem: MainMenuItem) {

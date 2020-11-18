@@ -16,18 +16,13 @@ import ru.skillbranch.sbdelivery.orm.entities.dishes.Dish
 
 class DishViewModel : ViewModel() {
 
-    private val database: DeliveryDatabase by lazy{
+    private val database: DeliveryDatabase by lazy {
         DeliveryDatabase.getInstance(SbDeliveryApplication.context)
     }
     private val dishDao: DishDao by lazy { database.dishDao() }
 
     fun dish(dishId: String): LiveData<Dish> {
-        val result = MutableLiveData<Dish>()
-        viewModelScope.launch(Dispatchers.IO) {
-            val dish = dishDao.findDish(dishId)
-            result.postValue(dish)
-        }
-        return result
+        return dishDao.findDishLive(dishId)
     }
 
     @ExperimentalCoroutinesApi
@@ -38,6 +33,12 @@ class DishViewModel : ViewModel() {
             result.postValue(reviews)
         }
         return result
+    }
+
+    fun handleFavoriteClick(dishId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dishDao.changeFavoriteState(dishId)
+        }
     }
 
 }

@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_nav_main_to_nav_dish"
             app:destination="@id/nav_dish" />
+        <action
+            android:id="@+id/action_nav_main_to_nav_favorites"
+            app:destination="@id/nav_favorites" />
     </fragment>
 
     <fragment
@@ -57,5 +60,10 @@
             android:name="dishId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_favorites"
+        android:name="ru.skillbranch.sbdelivery.ui.screens.favorites.FavoritesFragment"
+        android:label="FavoritesFragment"
+        tools:layout="@layout/fragment_favorites"/>
 
 </navigation>

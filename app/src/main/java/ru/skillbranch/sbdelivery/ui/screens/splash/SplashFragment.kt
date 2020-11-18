@@ -24,10 +24,11 @@ class SplashFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val animation = AlphaAnimation(0.0f, 0.5f)
+        val animation = AlphaAnimation(0.4f, 0.8f)
         animation.duration = 1000
         animation.fillAfter = true
         animation.repeatMode = Animation.REVERSE
+        animation.repeatCount = Animation.INFINITE
         ivSplashLogo.startAnimation(animation)
     }
 

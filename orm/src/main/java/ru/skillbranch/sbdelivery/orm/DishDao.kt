@@ -29,7 +29,7 @@ abstract class DishDao {
     abstract fun getFirstSaleDish(): Dish?
 
     @Query("SELECT * FROM dish WHERE recommended = 1")
-    abstract fun getRecommendedDishes(): List<Dish>
+    abstract fun getRecommendedDishes(): LiveData<List<Dish>>
 
     @Query("SELECT * FROM dish WHERE rating >= 4.8 LIMIT 10 ")
     abstract fun getBestDishes(): LiveData<List<Dish>>
@@ -43,8 +43,11 @@ abstract class DishDao {
     @Query("SELECT * FROM dish WHERE id = :id LIMIT 1")
     abstract fun findDish(id: String): Dish?
 
+    @Query("SELECT * FROM dish WHERE id = :id LIMIT 1")
+    abstract fun findDishLive(id: String): LiveData<Dish>
+
     @Query("SELECT * FROM dish WHERE favorite = 1")
-    abstract fun getFavoriteDishes(): List<Dish>
+    abstract fun getFavoriteDishes(): LiveData<List<Dish>>
 
     @Query("SELECT * FROM dish WHERE category_id = :categoryId")
     abstract fun getDishes(categoryId: String): List<Dish>
@@ -81,5 +84,8 @@ abstract class DishDao {
     open fun hasSaleDishes(): Boolean {
         return getFirstSaleDish() != null
     }
+
+    @Query("UPDATE dish SET favorite = (favorite + 1) % 2 WHERE id = :dishId")
+    abstract fun changeFavoriteState(dishId: String)
 
 }

@@ -26,7 +26,7 @@ class DishFragment : Fragment() {
     private val args: DishFragmentArgs by navArgs()
 
     private lateinit var tvDishFragmentTitle: AppCompatTextView
-    private lateinit var ivDishLike: AppCompatImageView
+    private lateinit var ivDishFavorite: AppCompatImageView
     private lateinit var ivDishSale: AppCompatTextView
 
     private lateinit var ivDishBackground: AppCompatImageView
@@ -57,7 +57,8 @@ class DishFragment : Fragment() {
         actionBar.setDisplayHomeAsUpEnabled(true)
 
         tvDishFragmentTitle = binding.dishFragmentTitle
-        ivDishLike = binding.dishLike
+        ivDishFavorite = binding.dishLike
+        ivDishFavorite.setOnClickListener { viewModel.handleFavoriteClick(args.dishId) }
         ivDishSale = binding.dishSale
 
         ivDishBackground = binding.dishBackground
@@ -100,7 +101,7 @@ class DishFragment : Fragment() {
 
     private fun updateViews(dish: Dish) {
         tvDishFragmentTitle.text = dish.name
-        ivDishLike.alpha = if (dish.likes > 0) 1.0f else 0.5f
+        ivDishFavorite.alpha = if (dish.favorite) 1.0f else 0.5f
 
         Glide.with(requireContext())
             .load(dish.image)
